@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="面向对象,四色原型,">
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="你所信必为你所见">
-<meta property="og:url" content="http://blog.ltwen.com/index.html">
+<meta name="description" content="1参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html 1四色原型分析法: 什么人(参与者)以什么角色在某个时刻或某个时间段内参与了某个活动 用面向对象思想来分析的思路12345678    1、第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景    2、第二是确定参与者. 比如图书馆">
+<meta name="keywords" content="面向对象,四色原型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图书馆借书分析">
+<meta property="og:url" content="http://blog.ltwen.com/2019/02/20/图书馆借书分析/index.html">
 <meta property="og:site_name" content="你所信必为你所见">
+<meta property="og:description" content="1参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html 1四色原型分析法: 什么人(参与者)以什么角色在某个时刻或某个时间段内参与了某个活动 用面向对象思想来分析的思路12345678    1、第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景    2、第二是确定参与者. 比如图书馆">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-22T07:56:32.068Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你所信必为你所见">
+<meta name="twitter:title" content="图书馆借书分析">
+<meta name="twitter:description" content="1参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html 1四色原型分析法: 什么人(参与者)以什么角色在某个时刻或某个时间段内参与了某个活动 用面向对象思想来分析的思路12345678    1、第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景    2、第二是确定参与者. 比如图书馆">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.ltwen.com/">
+  <link rel="canonical" href="http://blog.ltwen.com/2019/02/20/图书馆借书分析/">
 
 
 
 
 
-  <title>你所信必为你所见</title>
+  <title>图书馆借书分析 | 你所信必为你所见</title>
   
 
 
@@ -140,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +218,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/20/图书馆借书分析/" itemprop="url">图书馆借书分析</a></h1>
+          <h1 class="post-title" itemprop="name headline">图书馆借书分析</h1>
         
 
         <div class="post-meta">
@@ -320,9 +322,7 @@
       
 
       
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">四色原型分析法: 什么人(参与者)以什么角色在某个时刻或某个时间段内参与了某个活动</span><br></pre></td></tr></table></figure>
 <h2 id="用面向对象思想来分析的思路"><a href="#用面向对象思想来分析的思路" class="headerlink" title="用面向对象思想来分析的思路"></a>用面向对象思想来分析的思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    1、第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景</span><br><span class="line">    2、第二是确定参与者. 比如图书馆例子中这三个场景的参与者为: 借书人、图书馆、图书</span><br><span class="line">    3、第三是确定参与者中具体哪些是对象,哪些是服务. 比如这个例子中, 图书馆显然是个服务,因为实体和值对象它都不完全满足,图书、借书人两个都是实体,因为都有唯一性</span><br><span class="line">    4、第四是确定参与者对象的基本特征. 比如年龄,升高,体重等. 基本特征也分两种,一种是可修改的,一种是不可修改的; 不可修改的比如姓名、身高这些与生俱来的; 可修改的比如穿的衣服,鞋子等</span><br><span class="line">    5、第五是确定参与者会涉及到的角色. 在借书场景下,其实是借书人的前身就是普通的人,由于他后来通过办理借书登记后,才变成了借书人,他之前的属性有姓名、性别、身高</span><br><span class="line">等,行为有吃饭、睡觉、打豆豆,但是成了借书人之后,他就多了借书、还书等角色内的行为;</span><br><span class="line">    6、第六是确定参与者对象在经历活动之后发生的变化,比如人在跑步之后,产生汗水等</span><br><span class="line">    7、第七是确定参与对象间的中间产物. 比如入库场景下,将图书入库除了需要图书的基本信息: 书名、作者外,还需要图书馆中的图书ID、在图书馆中的摆放位置信息等,这时候需要一个包含图书信息与图书馆信息的中间产物</span><br></pre></td></tr></table></figure>
 <h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤:"></a>具体步骤:</h2><h3 id="1、确定场景"><a href="#1、确定场景" class="headerlink" title="1、确定场景"></a>1、确定场景</h3><ul>
@@ -361,8 +361,6 @@
 <li>3、人和图书馆之间 =&gt; 人的借书记录信息</li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -377,149 +375,38 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.ltwen.com/2017/08/21/读书思路/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="野猪佩琦">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="你所信必为你所见">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/21/读书思路/" itemprop="url">读书思路</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-21T15:35:37+08:00">
-                2017-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/面向对象/" rel="tag"># 面向对象</a>
           
-            
+            <a href="/tags/四色原型/" rel="tag"># 四色原型</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>探索(整个时间的 5% ~ 10%)</p>
-<pre><code>1. 观点是什么？
-2. 方法是什么？
-3. 结论是什么？
-4. 标记重点
-</code></pre><p>理解(整个时间的70%~80%)</p>
-<pre><code>1. 什么论据来支撑观点、方法、结论？
-2. 这些观点、论证和结论的缺陷是什么？
-3. 你怎么认为这些观点、证据和结论？
-4. 作者怎样（或者怎么能）回应这些缺陷，和你的批评？
-</code></pre><p>回忆和记笔记</p>
-<pre><code>1. 想象你正在和作者进行一个对话，或者是一个普通的辩论
-2. 想象给书一个考试。考试的题目是什么，你是怎样回答的？
-    → 记录重要元素，更新到自己理解框架
-    → 平均每 100 页输出 1 - 3 页笔记
-    → 笔记可以快速的定位到书中内容
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/21/读书思路/" rel="next" title="读书思路">
+                <i class="fa fa-chevron-left"></i> 读书思路
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -529,10 +416,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -540,6 +428,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -560,8 +452,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -621,6 +522,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用面向对象思想来分析的思路"><span class="nav-number">1.</span> <span class="nav-text">用面向对象思想来分析的思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体步骤"><span class="nav-number">2.</span> <span class="nav-text">具体步骤:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、确定场景"><span class="nav-number">2.1.</span> <span class="nav-text">1、确定场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、确定参与者"><span class="nav-number">2.2.</span> <span class="nav-text">2、确定参与者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、确定参与者中具体哪些是对象-哪些是服务"><span class="nav-number">2.3.</span> <span class="nav-text">3、确定参与者中具体哪些是对象,哪些是服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、确定参与者对象的基本特征"><span class="nav-number">2.4.</span> <span class="nav-text">4、确定参与者对象的基本特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、确定参与者会涉及到的角色"><span class="nav-number">2.5.</span> <span class="nav-text">5、确定参与者会涉及到的角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、确定参与者对象在经历活动之后发生的变化"><span class="nav-number">2.6.</span> <span class="nav-text">6、确定参与者对象在经历活动之后发生的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、确定参与对象间的中间产物"><span class="nav-number">2.7.</span> <span class="nav-text">7、确定参与对象间的中间产物</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -754,6 +671,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
