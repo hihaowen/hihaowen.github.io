@@ -324,41 +324,41 @@
           
             <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">参考文章 https://www.cnblogs.com/netfocus/archive/2011/09/18/2180656.html</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">四色原型分析法: 什么人(参与者)以什么角色在某个时刻或某个时间段内参与了某个活动</span><br></pre></td></tr></table></figure>
-<h2 id="用面向对象思想来分析的思路"><a href="#用面向对象思想来分析的思路" class="headerlink" title="用面向对象思想来分析的思路"></a>用面向对象思想来分析的思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    1、第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景</span><br><span class="line">    2、第二是确定参与者. 比如图书馆例子中这三个场景的参与者为: 借书人、图书馆、图书</span><br><span class="line">    3、第三是确定参与者中具体哪些是对象,哪些是服务. 比如这个例子中, 图书馆显然是个服务,因为实体和值对象它都不完全满足,图书、借书人两个都是实体,因为都有唯一性</span><br><span class="line">    4、第四是确定参与者对象的基本特征. 比如年龄,升高,体重等. 基本特征也分两种,一种是可修改的,一种是不可修改的; 不可修改的比如姓名、身高这些与生俱来的; 可修改的比如穿的衣服,鞋子等</span><br><span class="line">    5、第五是确定参与者会涉及到的角色. 在借书场景下,其实是借书人的前身就是普通的人,由于他后来通过办理借书登记后,才变成了借书人,他之前的属性有姓名、性别、身高</span><br><span class="line">等,行为有吃饭、睡觉、打豆豆,但是成了借书人之后,他就多了借书、还书等角色内的行为;</span><br><span class="line">    6、第六是确定参与者对象在经历活动之后发生的变化,比如人在跑步之后,产生汗水等</span><br><span class="line">    7、第七是确定参与对象间的中间产物. 比如入库场景下,将图书入库除了需要图书的基本信息: 书名、作者外,还需要图书馆中的图书ID、在图书馆中的摆放位置信息等,这时候需要一个包含图书信息与图书馆信息的中间产物</span><br></pre></td></tr></table></figure>
-<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤:"></a>具体步骤:</h2><h3 id="1、确定场景"><a href="#1、确定场景" class="headerlink" title="1、确定场景"></a>1、确定场景</h3><ul>
-<li>1、图书入库 (StoreBo)</li>
-<li>2、借书 (BorrowBo)</li>
-<li>3、还书 (ReturnBo)</li>
+<h2 id="用面向对象思想来分析的思路"><a href="#用面向对象思想来分析的思路" class="headerlink" title="用面向对象思想来分析的思路"></a>用面向对象思想来分析的思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    第一是确定场景. 比如图书馆的这个例子中就是借书场景、还书场景、图书入库场景</span><br><span class="line">    第二是确定参与者. 比如图书馆例子中这三个场景的参与者为: 借书人、图书馆、图书</span><br><span class="line">    第三是确定参与者中具体哪些是对象,哪些是服务. 比如这个例子中,图书馆显然是个服务,因为实体和值对象它都不完全满足,图书、借书人两个都是实体,因为都有唯一性</span><br><span class="line">    第四是确定参与者对象的基本特征. 比如年龄,升高,体重等. 基本特征也分两种,一种是可修改的,一种是不可修改的; 不可修改的比如姓名、身高这些与生俱来的; 可修改的比如穿的衣服,鞋子等</span><br><span class="line">    第五是确定参与者会涉及到的角色. 在借书场景下,其实是借书人的前身就是普通的人,由于他后来通过办理借书登记后,才变成了借书人,他之前的属性有姓名、性别、身高</span><br><span class="line">等,行为有吃饭、睡觉、打豆豆,但是成了借书人之后,他就多了借书、还书等角色内的行为;</span><br><span class="line">    第六是确定参与者对象在经历活动之后发生的变化,比如人在跑步之后,产生汗水等</span><br><span class="line">    第七是确定参与对象间的中间产物. 比如入库场景下,将图书入库除了需要图书的基本信息: 书名、作者外,还需要图书馆中的图书ID、在图书馆中的摆放位置信息等,这时候需要一个包含图书信息与图书馆信息的中间产物</span><br></pre></td></tr></table></figure>
+<h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤:"></a>具体步骤:</h2><h3 id="确定场景"><a href="#确定场景" class="headerlink" title="确定场景"></a>确定场景</h3><ul>
+<li>图书入库 (StoreBo)</li>
+<li>借书 (BorrowBo)</li>
+<li>还书 (ReturnBo)</li>
 </ul>
-<h3 id="2、确定参与者"><a href="#2、确定参与者" class="headerlink" title="2、确定参与者"></a>2、确定参与者</h3><ul>
-<li>1、图书</li>
-<li>2、人</li>
-<li>3、图书馆</li>
+<h3 id="确定参与者"><a href="#确定参与者" class="headerlink" title="确定参与者"></a>确定参与者</h3><ul>
+<li>图书</li>
+<li>人</li>
+<li>图书馆</li>
 </ul>
-<h3 id="3、确定参与者中具体哪些是对象-哪些是服务"><a href="#3、确定参与者中具体哪些是对象-哪些是服务" class="headerlink" title="3、确定参与者中具体哪些是对象,哪些是服务"></a>3、确定参与者中具体哪些是对象,哪些是服务</h3><ul>
-<li>1、图书 =》 对象</li>
-<li>2、人 =〉 对象</li>
-<li>3、图书馆 =》 服务</li>
+<h3 id="确定参与者中具体哪些是对象-哪些是服务"><a href="#确定参与者中具体哪些是对象-哪些是服务" class="headerlink" title="确定参与者中具体哪些是对象,哪些是服务"></a>确定参与者中具体哪些是对象,哪些是服务</h3><ul>
+<li>图书 =》 对象</li>
+<li>人 =〉 对象</li>
+<li>图书馆 =》 服务</li>
 </ul>
 <h3 id="4、确定参与者对象的基本特征"><a href="#4、确定参与者对象的基本特征" class="headerlink" title="4、确定参与者对象的基本特征"></a>4、确定参与者对象的基本特征</h3><ul>
-<li>1、图书: 书名、作者、发行时间、字数</li>
-<li>2、人: 用户ID</li>
-<li>3、图书馆: 图书入库、借书、还书、图书查询</li>
+<li>图书: 书名、作者、发行时间、字数</li>
+<li>人: 用户ID</li>
+<li>图书馆: 图书入库、借书、还书、图书查询</li>
 </ul>
 <h3 id="5、确定参与者会涉及到的角色"><a href="#5、确定参与者会涉及到的角色" class="headerlink" title="5、确定参与者会涉及到的角色"></a>5、确定参与者会涉及到的角色</h3><ul>
-<li>1、图书 =&gt; 无</li>
-<li>2、人 =&gt; 借书人</li>
-<li>3、图书馆 =&gt; 无</li>
+<li>图书 =&gt; 无</li>
+<li>人 =&gt; 借书人</li>
+<li>图书馆 =&gt; 无</li>
 </ul>
 <h3 id="6、确定参与者对象在经历活动之后发生的变化"><a href="#6、确定参与者对象在经历活动之后发生的变化" class="headerlink" title="6、确定参与者对象在经历活动之后发生的变化"></a>6、确定参与者对象在经历活动之后发生的变化</h3><ul>
-<li>1、图书 =&gt; 无</li>
-<li>2、人 =&gt; 多了几本书</li>
-<li>3、图书馆 =&gt; 多了或者少了几本书</li>
+<li>图书 =&gt; 无</li>
+<li>人 =&gt; 多了几本书</li>
+<li>图书馆 =&gt; 多了或者少了几本书</li>
 </ul>
 <h3 id="7、确定参与对象间的中间产物"><a href="#7、确定参与对象间的中间产物" class="headerlink" title="7、确定参与对象间的中间产物"></a>7、确定参与对象间的中间产物</h3><ul>
-<li>1、图书和图书馆之间 =&gt; 图书馆某图书信息</li>
-<li>2、人和图书之间 =&gt; 某人借的书的信息</li>
-<li>3、人和图书馆之间 =&gt; 人的借书记录信息</li>
+<li>图书和图书馆之间 =&gt; 图书馆某图书信息</li>
+<li>人和图书之间 =&gt; 某人借的书的信息</li>
+<li>人和图书馆之间 =&gt; 人的借书记录信息</li>
 </ul>
 
           
