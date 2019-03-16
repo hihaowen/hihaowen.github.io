@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/15/设计一个像TinyURL的短链接服务/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2019/03/15/设计一个像TinyURL的短链接服务/" itemprop="url">设计一个像TinyURL的短链接服务</a></h1>
         
 
         <div class="post-meta">
@@ -260,7 +260,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-15T21:48:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-15T21:30:00+08:00">
                 2019-03-15
               </time>
             
@@ -270,6 +270,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统设计/" itemprop="url" rel="index">
+                    <span itemprop="name">系统设计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -300,14 +322,7 @@
       
         
           
-            <hr>
-<p>layout: study<br>title: 设计一个像TinyURL的短链接服务<br>date: 2019-03-15 21:30:00<br>categories:</p>
-<ul>
-<li>系统设计<br>tags:</li>
-<li>学习</li>
-</ul>
-<hr>
-<h1 id="设计一个像TinyURL的短链接服务"><a href="#设计一个像TinyURL的短链接服务" class="headerlink" title="设计一个像TinyURL的短链接服务 "></a>设计一个像TinyURL的短链接服务 <a href="https://www.educative.io/collection/page/5668639101419520/5649050225344512/5668600916475904s" target="_blank" rel="noopener"></a></h1><h2 id="1、为什么我们需要短链接"><a href="#1、为什么我们需要短链接" class="headerlink" title="1、为什么我们需要短链接"></a>1、为什么我们需要短链接</h2><p>短链接用来创建比长链接更短的别名,我们叫它们为短链接.当用户点击这些短链接的时候,用户会被重定向到短链接的原始链接,短链接在显示、打印、发送消息或推文时可节省大量空间。此外，用户不太可能错误地输入较短的URL.</p>
+            <h1 id="设计一个像TinyURL的短链接服务"><a href="#设计一个像TinyURL的短链接服务" class="headerlink" title="设计一个像TinyURL的短链接服务 "></a>设计一个像TinyURL的短链接服务 <a href="https://www.educative.io/collection/page/5668639101419520/5649050225344512/5668600916475904s" target="_blank" rel="noopener"></a></h1><h2 id="1、为什么我们需要短链接"><a href="#1、为什么我们需要短链接" class="headerlink" title="1、为什么我们需要短链接"></a>1、为什么我们需要短链接</h2><p>短链接用来创建比长链接更短的别名,我们叫它们为短链接.当用户点击这些短链接的时候,用户会被重定向到短链接的原始链接,短链接在显示、打印、发送消息或推文时可节省大量空间。此外，用户不太可能错误地输入较短的URL.</p>
 <p>例如，如果我们通过tinyurl缩短下面的链接：</p>
 <p><code>https://www.educative.io/collection/page/5668639101419520/5649050225344512/5668600916475904/</code></p>
 <p>我们可以获得:</p>
@@ -350,13 +365,8 @@
 <p><code>0.2 * 1.7 billion * 500 bytes = ~170GB</code></p>
 <p>这里需要注意的一点是，由于会有很多重复的请求（具有相同的URL），因此，我们的实际内存使用量将小于170GB。</p>
 <p>高级估计：假设每月有5亿个新URL，读写比率为100:1，下面是我们服务的高级估计的摘要：</p>
-<pre><code>新url数 200/s
-url重定向数 19000/s
-流入数据 100KB/s
-流出数据 9MB/s
-储存5年 15TB
-缓存内存 170GBs
-</code></pre><h2 id="4、系统APIs"><a href="#4、系统APIs" class="headerlink" title="4、系统APIs"></a>4、系统APIs</h2><p>我们可以使用SOAP或RESTAPI来公开我们服务的功能。以下可能是用于创建和删除URL的API的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">新url数 200/s</span><br><span class="line">url重定向数 19000/s</span><br><span class="line">流入数据 100KB/s</span><br><span class="line">流出数据 9MB/s</span><br><span class="line">储存5年 15TB</span><br><span class="line">缓存内存 170GBs</span><br></pre></td></tr></table></figure>
+<h2 id="4、系统APIs"><a href="#4、系统APIs" class="headerlink" title="4、系统APIs"></a>4、系统APIs</h2><p>我们可以使用SOAP或RESTAPI来公开我们服务的功能。以下可能是用于创建和删除URL的API的定义：</p>
 <p><code>createURL(api_dev_key, original_url, custom_alias=None, user_name=None, expire_date=None)</code></p>
 <ul>
 <li>参数:</li>
@@ -865,7 +875,7 @@ url重定向数 19000/s
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">categories</span>
                 
               </div>
@@ -876,7 +886,7 @@ url重定向数 19000/s
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
