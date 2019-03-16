@@ -332,41 +332,66 @@
 <p>如果您以前没有使用tinyurl.com，请尝试创建一个新的缩短的url，并花一些时间浏览他们提供的各种服务选项。这将有助于你理解这一章。</p>
 <h1 id="系统的要求和目标"><a href="#系统的要求和目标" class="headerlink" title="系统的要求和目标"></a>系统的要求和目标</h1><p>我们的网址缩短系统应满足以下要求：</p>
 <ul>
-<li>功能要求:</li>
-</ul>
-<p><strong> 1、给定一个URL，我们的服务应该生成一个较短且唯一的别名。这叫做短链接。
-</strong> 2、当用户访问短链接的时候,我们的服务应该跳转到它原始的链接<br><strong> 3、用户可以选择为其URL选择一个自定义的短链接。
-</strong> 4、链接将在标准默认时间跨度后过期。用户应该能够指定过期时间。</p>
+<li><p>功能要求:</p>
 <ul>
-<li>非功能要求:</li>
+<li>1、给定一个URL，我们的服务应该生成一个较短且唯一的别名。这叫做短链接。</li>
+<li>2、当用户访问短链接的时候,我们的服务应该跳转到它原始的链接</li>
+<li>3、用户可以选择为其URL选择一个自定义的短链接。</li>
+<li>4、链接将在标准默认时间跨度后过期。用户应该能够指定过期时间。</li>
 </ul>
-<p><strong> 1、系统应高度可用。这是必需的，因为如果我们的服务关闭，所有URL重定向都将开始失败。
-</strong> 2、URL重定向应该以最小的延迟实时进行。<br>** 3、缩短的链接不应是可猜测的（不可预测）。</p>
+</li>
+<li><p>非功能要求:</p>
 <ul>
-<li>扩展要求:</li>
+<li>1、系统应高度可用。这是必需的，因为如果我们的服务关闭，所有URL重定向都将开始失败。</li>
+<li>2、URL重定向应该以最小的延迟实时进行。</li>
+<li>3、缩短的链接不应是可猜测的（不可预测）。</li>
 </ul>
-<p><strong> 1、分析；例如，重定向发生了多少次？
-</strong> 2、我们的服务也应该可以通过其他服务通过 REST APIs 访问。</p>
+</li>
+<li><p>扩展要求:</p>
+<ul>
+<li>1、分析；例如，重定向发生了多少次？</li>
+<li>2、我们的服务也应该可以通过其他服务通过 REST APIs 访问。</li>
+</ul>
+</li>
+</ul>
 <h1 id="容量估算和限制"><a href="#容量估算和限制" class="headerlink" title="容量估算和限制"></a>容量估算和限制</h1><p>我们的系统读起来很重。与新的URL缩短相比，会有很多重定向请求。让我们假设读写之间的比率为100:1。</p>
 <p>流量估计：假设我们每月有5亿个新的URL缩短，读/写比率为100:1，我们可以预期在同一时期内有50B的重定向：</p>
-<p><code>100 * 500M =&gt; 50B</code></p>
+<blockquote>
+<p>100 * 500M =&gt; 50B</p>
+</blockquote>
 <p>对于我们的系统，每秒查询（qps）是什么？每秒新URL缩短：</p>
-<p><code>5亿 / (30 days * 24 hours * 3600 seconds) = ~200 URLs/s</code></p>
+<blockquote>
+<p>5亿 / (30 days <em> 24 hours </em> 3600 seconds) = ~200 URLs/s</p>
+</blockquote>
 <p>考虑到100:1读/写比率，每秒URL重定向将是：</p>
-<p><code>100 * 200 URLs/s = 2000/s</code></p>
+<blockquote>
+<p>100 * 200 URLs/s = 2000/s</p>
+</blockquote>
 <p>存储估计：假设我们将每个URL缩短请求（以及相关的缩短链接）存储5年。由于我们预计每月有5亿个新的URL，因此我们预计存储的对象总数将达到300亿：</p>
-<p><code>500 million * 5 years * 12 months = 30 billion</code></p>
+<blockquote>
+<p>500 million <em> 5 years </em> 12 months = 30 billion</p>
+</blockquote>
 <p>假设每个存储的对象大约有500个字节（只是一个大概的估计值——我们稍后再深入研究）。我们需要15TB的总存储空间：</p>
-<p><code>30 billion * 500 bytes = 15 TB</code></p>
+<blockquote>
+<p>30 billion * 500 bytes = 15 TB</p>
+</blockquote>
 <p>带宽估计：对于写请求，由于我们期望每秒有200个新的URL，因此我们的服务的总传入数据将为100kb/s：</p>
-<p><code>200 * 500 bytes = 100 KB/s</code></p>
+<blockquote>
+<p>200 * 500 bytes = 100 KB/s</p>
+</blockquote>
 <p>对于读取请求，由于我们期望每秒进行大约19000个URL重定向，因此我们的服务的总传出数据将为9MB/秒。</p>
-<p><code>19000 * 500 bytes = ~9 MB/s</code></p>
+<blockquote>
+<p>19000 * 500 bytes = ~9 MB/s</p>
+</blockquote>
 <p>内存估计：如果我们想要缓存一些经常访问的热URL，我们需要多少内存来存储它们？如果我们遵循80-20规则，也就是说20%的URL产生80%的流量，我们希望缓存这20%的热门URL。</p>
 <p>由于我们每秒有1.9万个请求，我们将每天收到17亿个请求：</p>
-<p><code>19K * 3600 seconds * 24 hours = ~1.7 billion</code></p>
+<blockquote>
+<p>19K <em> 3600 seconds </em> 24 hours = ~1.7 billion</p>
+</blockquote>
 <p>要缓存这些请求的20%，我们需要170GB的内存。</p>
-<p><code>0.2 * 1.7 billion * 500 bytes = ~170GB</code></p>
+<blockquote>
+<p>0.2 <em> 1.7 billion </em> 500 bytes = ~170GB</p>
+</blockquote>
 <p>这里需要注意的一点是，由于会有很多重复的请求（具有相同的URL），因此，我们的实际内存使用量将小于170GB。</p>
 <p>高级估计：假设每月有5亿个新URL，读写比率为100:1，下面是我们服务的高级估计的摘要：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">新url数 200/s</span><br><span class="line">url重定向数 19000/s</span><br><span class="line">流入数据 100KB/s</span><br><span class="line">流出数据 9MB/s</span><br><span class="line">储存5年 15TB</span><br><span class="line">缓存内存 170GBs</span><br></pre></td></tr></table></figure>
