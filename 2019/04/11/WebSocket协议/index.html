@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="rfc,翻译,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文地址: https://tools.ietf.org/html/rfc6455 摘要 WebSocket协议支持客户端之间的双向通信在受控环境中向远程主机运行不受信任的代码选择了从那个代码进行通信.安全性用于此的模型是常用的基于源站的安全模型通过Web浏览器。协议包括开放式握手然后是基本的消息帧，在TCP上分层.目标这项技术是为基于浏览器的需要与服务器进行双向通信的应用程序不依赖于打开多个HT">
+<meta name="keywords" content="rfc,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebSocket协议">
+<meta property="og:url" content="http://blog.ltwen.com/2019/04/11/WebSocket协议/index.html">
+<meta property="og:site_name" content="你所信必为你所见">
+<meta property="og:description" content="原文地址: https://tools.ietf.org/html/rfc6455 摘要 WebSocket协议支持客户端之间的双向通信在受控环境中向远程主机运行不受信任的代码选择了从那个代码进行通信.安全性用于此的模型是常用的基于源站的安全模型通过Web浏览器。协议包括开放式握手然后是基本的消息帧，在TCP上分层.目标这项技术是为基于浏览器的需要与服务器进行双向通信的应用程序不依赖于打开多个HT">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-12T11:28:54.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebSocket协议">
+<meta name="twitter:description" content="原文地址: https://tools.ietf.org/html/rfc6455 摘要 WebSocket协议支持客户端之间的双向通信在受控环境中向远程主机运行不受信任的代码选择了从那个代码进行通信.安全性用于此的模型是常用的基于源站的安全模型通过Web浏览器。协议包括开放式握手然后是基本的消息帧，在TCP上分层.目标这项技术是为基于浏览器的需要与服务器进行双向通信的应用程序不依赖于打开多个HT">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.ltwen.com/2019/04/11/WebSocket协议/">
+
+
+
+
+
+  <title>WebSocket协议 | 你所信必为你所见</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">你所信必为你所见</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.ltwen.com/2019/04/11/WebSocket协议/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="野猪佩琦">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你所信必为你所见">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WebSocket协议</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-11T18:32:00+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/协议/" itemprop="url" rel="index">
+                    <span itemprop="name">协议</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文地址: <a href="https://tools.ietf.org/html/rfc6455" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc6455</a></p>
+<p>摘要</p>
+<p>WebSocket协议支持客户端之间的双向通信在受控环境中向远程主机运行不受信任的代码选择了从那个代码进行通信.安全性用于此的模型是常用的基于源站的安全模型通过Web浏览器。协议包括开放式握手然后是基本的消息帧，在TCP上分层.目标这项技术是为基于浏览器的需要与服务器进行双向通信的应用程序不依赖于打开多个HTTP连接（例如，使用xmlhttpRequest或<iframe>s和long polling）。</iframe></p>
+<p>关于下段备忘</p>
+<p>这是一个Internet标准跟踪文档。<br>本文件是互联网工程工作组的产品。（IETF）。它代表了IETF团体的共识。它有已接受公众审查，并已获互联网工程指导小组（IESG）。更多信息互联网标准见<a href="https://tools.ietf.org/html/rfc5741#section-2" target="_blank" rel="noopener">RFC 5741第2节</a>。</p>
+<p>版权声明</p>
+<p>版权所有（c）2011 IETF Trust和被认定为记录作者。版权所有。</p>
+<p>本文件受BCP 78和IETF信托的法律约束。有关IETF文件的规定（<a href="http://trustent.ietf.org/license-info）于本文件的出版.请审阅这些文件仔细地描述你的权利和限制到该文档。" target="_blank" rel="noopener">http://trustent.ietf.org/license-info）于本文件的出版.请审阅这些文件仔细地描述你的权利和限制到该文档。</a><br>从本文档中提取的代码组件必须包括信托法律条款第4.e节中所述的简化BSD许可证文本，并且按照简化BSD许可证中所述提供无担保。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>介绍<ul>
+<li>背景</li>
+<li>协议概述</li>
+<li>开始握手</li>
+<li>结束握手</li>
+<li>设计理念</li>
+<li>安全模型</li>
+<li>与TCP和HTTP的关系</li>
+<li>建立连接</li>
+<li>使用WebSocket协议的子协议</li>
+</ul>
+</li>
+<li>符合要求<ul>
+<li>术语和其他约定</li>
+</ul>
+</li>
+<li>WebSocket URIs</li>
+<li>开始握手<ul>
+<li>客户要求</li>
+<li>服务器端要求<ul>
+<li>读取客户的开始握手</li>
+<li>发送服务器的开始握手</li>
+</ul>
+</li>
+<li>为握手中使用的新头字段收集了ABNF</li>
+<li>支持多种版本的WebSocket协议</li>
+</ul>
+</li>
+<li>数据帧<ul>
+<li>概述 </li>
+<li>基本帧协议</li>
+<li>客户端到服务器屏蔽</li>
+<li>碎裂</li>
+<li>控制帧<ul>
+<li>关闭</li>
+<li>Ping</li>
+<li>Pong</li>
+</ul>
+</li>
+<li>数据帧</li>
+<li>例子</li>
+<li>可扩展性</li>
+</ul>
+</li>
+<li>发送和接收数据<ul>
+<li>发送数据</li>
+<li>接受数据</li>
+</ul>
+</li>
+<li>关闭连接<ul>
+<li>定义<ul>
+<li>关闭WebSocket连接</li>
+<li>启动WebSocket关闭握手</li>
+<li>WebSocket结束握手已启动</li>
+<li>WebSocket连接已关闭</li>
+<li>WebSocket连接关闭代码</li>
+<li>WebSocket连接关闭原因</li>
+<li>WebSocket连接失败</li>
+</ul>
+</li>
+<li>异常关闭<ul>
+<li>客户端启动的关闭</li>
+<li>服务器启动的关闭</li>
+<li>从异常关闭中恢复</li>
+</ul>
+</li>
+<li>连接正常闭合</li>
+<li>状态码<ul>
+<li>定义的状态代码</li>
+<li>保留状态代码范围</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>错误处理<ul>
+<li>处理UTF-8编码数据中的错误</li>
+</ul>
+</li>
+<li>扩展<ul>
+<li>正在协商扩展</li>
+<li>已知扩展名</li>
+</ul>
+</li>
+<li>安全注意事项<ul>
+<li>非浏览器客户端</li>
+<li>原生考虑</li>
+<li>对基础设施的攻击（掩蔽）</li>
+<li>具体实施限制</li>
+<li>WebSocket客户端身份验证</li>
+<li>连接保密性和完整性</li>
+<li>无效数据处理</li>
+<li>WebSocket握手使用sha-1</li>
+</ul>
+</li>
+<li>IANA考虑<ul>
+<li>注册新的URI方案<ul>
+<li>“ws”计划注册</li>
+<li>“WSS”计划的注册</li>
+</ul>
+</li>
+<li>注册“websocket”http升级关键字</li>
+<li>注册新的HTTP头字段<ul>
+<li>Sec-WebSocket-Key</li>
+<li>Sec-WebSocket-Extensions</li>
+<li>Sec-WebSocket-Accept</li>
+<li>Sec-WebSocket-Protocol</li>
+<li>Sec-WebSocket-Version</li>
+</ul>
+</li>
+<li>WebSocket扩展名注册表</li>
+<li>WebSocket子协议名称注册表</li>
+<li>WebSocket版本号注册表</li>
+<li>WebSocket关闭代码编号注册表</li>
+<li>WebSocket操作码注册表</li>
+<li>WebSocket帧头位注册表</li>
+</ul>
+</li>
+<li>使用来自其他规范的WebSocket协议</li>
+<li>确认</li>
+<li>工具书类<ul>
+<li>规范性引用文件</li>
+<li>资料性引用</li>
+</ul>
+</li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p><code>本节不规范</code></p>
+<p>历史上，创建需要双向的Web应用程序客户机和服务器之间的通信（例如，即时消息和游戏应用程序）已经要求滥用HTTP来轮询以非重复方式发送上游通知时的更新服务器HTTP调用<a href="https://tools.ietf.org/html/rfc6202" target="_blank" rel="noopener">RFC6202</a></p>
+<p>这会导致各种问题：</p>
+<ul>
+<li>服务器被强制使用许多不同的底层TCP每个客户端的连接：一个用于向客户端和每个传入消息的新客户端。</li>
+<li>有线协议有很高的开销，每个客户端到服务器具有HTTP头的消息。</li>
+<li>客户端脚本被强制维护到传入连接的传出连接，用于跟踪答复。</li>
+</ul>
+<p>一个简单的解决方案是使用一个TCP连接双向交通。这就是WebSocket协议提供。与WebSocket API<a href="https://tools.ietf.org/html/rfc6455#ref-WSAPI" target="_blank" rel="noopener">wsapi</a>结合，它提供了用于从网页进行双向通信的HTTP轮询的替代方法到远程服务器。</p>
+<p>相同的技术可用于各种Web应用程序：游戏、股票行情、多用户应用程序编辑，用户界面实时公开服务器端服务，等。</p>
+<p>WebSocket协议旨在取代现有的使用HTTP作为传输的双向通信技术从现有基础设施（代理、过滤、身份验证）。这些技术是作为权衡来实施的。在效率和可靠性之间，因为HTTP最初不是用于双向通信（参见[RFC6202]进一步讨论）。WebSocket协议尝试解决现有双向HTTP技术的目标现有的HTTP基础结构；因此，它是为工作而设计的通过HTTP端口80和443以及支持HTTP代理和中介，即使这意味着特定于当前环境。然而，该设计并没有将WebSocket限制为HTTP，未来的实现可以在专用端口上使用更简单的握手，而无需重新设计整个协议。这最后要点很重要，因为互动的交通模式消息传递与标准HTTP流量不紧密匹配，可能导致某些部件上的异常负载。</p>
+<h3 id="协议概述"><a href="#协议概述" class="headerlink" title="协议概述"></a>协议概述</h3><p><code>本节不规范。</code></p>
+<p>协议有两部分：握手和数据传输</p>
+<p>客户机的握手如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line">Origin: http://example.com</span><br><span class="line">Sec-WebSocket-Protocol: chat, superchat</span><br><span class="line">Sec-WebSocket-Version: 13</span><br></pre></td></tr></table></figure>
+<p>服务器的握手如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Switching Protocols</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</span><br><span class="line">Sec-WebSocket-Protocol: chat</span><br></pre></td></tr></table></figure>
+<p>来自客户机的前导行遵循请求行格式。服务器的前导行遵循状态行格式,这个请求行和状态行生产在<a href="https://tools.ietf.org/html/rfc2616" target="_blank" rel="noopener">RFC2616</a>中定义。</p>
+<p>一组无序的标题字段出现在两种情况。这些标题字段的含义在本文件<a href="https://tools.ietf.org/html/rfc6455#section-4" target="_blank" rel="noopener">第4节</a>,其他标题字段也可以是存在，如cookies<a href="https://tools.ietf.org/html/rfc6265" target="_blank" rel="noopener">rfc6265</a>,标题的格式和解析如<a href="https://tools.ietf.org/html/rfc2616" target="_blank" rel="noopener">rfc2616</a>中所定义。</p>
+<p>一旦客户机和服务器都发送了握手，如果握手成功，然后开始数据传输部分,这是一个双向通信通道，双方都可以，独立于另一个，随意发送数据。</p>
+<p>成功握手后，客户机和服务器将数据传输回在本规范中提到的概念单位中，“消息”。在网络上，消息由一个或多个帧组成。WebSocket消息不一定与特定网络层框架,WebSocket消息不一定与特定的网络层框架，作为一个碎片消息由中间物合并或分裂的。</p>
+<p>框架具有关联的类型。每个帧属于同一帧消息包含相同类型的数据。一般来说，有文本数据的类型（解释为utf-8[rfc3629]文本），二进制数据（其解释由应用程序）和控制框架（不用于承载应用程序的数据，而不是协议级信号，如表示连接应关闭）。这个协议的版本定义了六种帧类型，剩下十种留作将来使用。</p>
+<h2 id="开始握手"><a href="#开始握手" class="headerlink" title="开始握手"></a>开始握手</h2><p><code>本节不规范</code></p>
+<p>开放式握手旨在与基于HTTP的服务器端软件和中介，这样一个端口就可以由与该服务器和WebSocket对话的HTTP客户端使用与该服务器对话的客户端,为此，WebSocket客户端的握手是一个HTTP升级请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==</span><br><span class="line">Origin: http://example.com</span><br><span class="line">Sec-WebSocket-Protocol: chat, superchat</span><br><span class="line">Sec-WebSocket-Version: 13</span><br></pre></td></tr></table></figure>
+<p>根据[rfc2616]，握手中的头字段可以是由客户以任何顺序发送，因此接收的标题字段不重要。</p>
+<p>GET方法[rfc2616]的“Request-URI”用于标识WebSocket连接的端点，两者都允许多个域从一个IP地址提供服务并允许多个WebSocket要由单个服务器提供服务的终结点。</p>
+<p>客户机将主机名包含在其根据[rfc2616]握手，这样客户机和服务器都可以可以验证他们是否同意使用哪个主机。</p>
+<p>其他标题字段用于选择WebSocket中的选项协议.此版本中可用的典型选项是子协议选择器（Sec-WebSocket-Protocol),扩展名列表客户端支持（Sec-WebSocket-Extensions）,”Origin”头字段等。Sec-WebSocket-Protocol request-header字段可以是用于指示哪些子协议（应用程序级协议）在WebSocket协议上分层）是客户端可以接受的。服务器选择一个或没有一个可接受的协议和回音握手中的该值表示它已选择协议</p>
+<p><code>Sec-WebSocket-Protocol: chat</code></p>
+<p>Origin头字段[RFC6454]用于保护通过脚本使用Web浏览器中的WebSocket API,通知服务器脚本源代码生成WebSocket连接请求。如果服务器不希望接受来自此源的连接，它可以选择通过发送适当的HTTP错误来拒绝连接代码。此标题字段由浏览器客户端发送；对于非浏览器客户端，如果在这些客户端上下文中</p>
+<p>最后，服务器必须向客户机证明它收到了客户端的WebSocket握手，以便服务器不接受不是WebSocket连接的连接。这可以防止攻击者通过小心发送来欺骗WebSocket服务器使用xmlhttpRequest[xmlhttpRequest]或窗体创建的数据包提交。为了证明收到了握手，服务器必须接受两个信息片段并将它们组合起来形成响应.第一信息来自’Sec-WebSocket-Key’头字段在客户端握手中：</p>
+<p><code>Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==</code></p>
+<p>对于此头字段，服务器必须获取值（如存在在Header字段中，例如base64编码的[rfc4648]版本减号任何前导和尾随空格），并将其与全局唯一标识符（guid，[rfc4122]）“258eafa5-e914-47da-95CA-C5AB0DC85B11“的字符串形式，不太可能被不理解WebSocket协议的网络终结点,一个SHA-1哈希（160位）[FIPS.180-3]，base64编码（见第4节[rfc4648]），然后在服务器的握手。</p>
+<p>具体来说，如果与上面的示例一样，sec websocket键|头字段的值为“dghlihnhbxbszsbub25jzq==”，服务器将连接字符串“258eafa5-e914-47da-95ca-c5ab0dc85b11”形成字符串“dghlihnhbxbszsbub25jzq==258eafa5-e914-47da-95ca-C5AB0DC85B11”。然后服务器将获取这个的sha-1哈希，给出值0xB3 0X7A 0X4F 0X2C 0XC0 0X62 0X4F 0X16 0X90 0XF60x46 0x06 0xcf 0x38 0x59 0x45 0xb2 0xbe 0xc4 0xea.这个值是然后对base64进行编码（见[rfc4648]第4节）,给出值“s3pplmbitxaq9kygzhzrbk+xoo=”然后该值将被回送Sec-WebSocket-Accept字段。</p>
+<p>服务器的握手比客户机简单得多。第一行是HTTP状态行，状态为代码101：</p>
+<p><code>HTTP/1.1 101 Switching Protocols</code></p>
+<p>除了101之外的任何状态代码都表示WebSocket握手尚未完成，HTTP的语义仍然适用。这个标题跟随状态代码。</p>
+<p>Connection和Upgrade头字段完成HTTP的升级,字段Sec-WebSocket-Accept指示服务器愿意接受连接,如果有，这个头字段必须包含客户端临时的的哈希Sec-WebSocket-Key键以及预定义的GUID,任何其他价值不得解释为服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Switching Protocols</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</span><br></pre></td></tr></table></figure>
+<p>这些字段由WebSocket客户端检查脚本页面。如果Sec-WebSocket-Accept值与预期值不匹配,如果缺少头字段，或者HTTP状态代码为不是101，不会建立连接，WebSocket框架不会被发送。</p>
+<p>如果缺少头字段，或者HTTP状态代码为不是101，不会建立连接，WebSocket框架不会被发送。</p>
+<p>还可以包括选项字段。在这个版本的协议中，主选项字段是Sec-WebSocket-Protocol，表示服务器选择的子协议,这表明服务器选择的子协议.WebSocket客户端验证服务器是否包含指定的值之一在WebSocket客户端握手中.多语言服务器子协议必须确保它根据客户的握手并在握手中指定。</p>
+<p><code>Sec-WebSocket-Protocol: chat</code></p>
+<p>服务器还可以将与cookie相关的选项字段_set_cookies，如[RFC6265]所述。</p>
+<h2 id="结束握手"><a href="#结束握手" class="headerlink" title="结束握手"></a>结束握手</h2><p><em>本节不规范。</em></p>
+<p>结束握手要比开始握手简单得多。</p>
+<p>任何一方都可以发送包含指定开始结束握手的控制序列（详见5.5.1）.在接收到这样的帧时，另一个对等端发送一个关闭帧以响应，如果尚未发送帧,在接收到控制帧后，第一个对等端关闭连接，在没有进一步数据的情况下是安全的即将到来的。</p>
+<p>在发送一个指示连接应为关闭后，对等端不发送任何进一步的数据；在接收到指示连接应关闭的控制帧，对等丢弃接收到的任何进一步数据。</p>
+<p>两个对等机同时启动此握手是安全的。</p>
+<p>结束握手旨在补充TCP结束握手（fin/ack），基于TCP结束握手并不总是可靠的端到端，尤其是在截取代理人和其他中间人。</p>
+<p>通过发送关闭帧并等待响应的关闭帧，在某些情况下，数据可能会不必要地丢失。一个实例，在某些平台上，如果套接字被接收队列，发送一个RST包，然后导致recv（）接收RST的一方失败，即使有数据等待被读取。</p>
+<h2 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h2><p><code>本节不规范</code></p>
+<p>WebSocket协议的设计原则是最小框架（唯一存在的框架是基于协议帧而不是基于流，并支持Unicode文本和二进制帧之间的区别）,预计元数据将由应用层在WebSocket之上分层，与应用层（如HTTP）在TCP之上分层的方式相同。</p>
+<p>从概念上讲，WebSocket实际上只是TCP之上的一个层，执行以下操作：</p>
+<ul>
+<li>为浏览器添加基于Web源站的安全模型</li>
+<li>添加要支持的寻址和协议命名机制一个端口上有多个服务，一个IP上有多个主机名地址</li>
+<li>在TCP上分层框架机制以返回到建立在IP包机制上的</li>
+<li>包括一个额外的带内结束握手，旨在在代理和其他中介的存在下工作</li>
+</ul>
+<p>除此之外，websocket没有添加任何内容。基本上是为了尽可能接近将原始TCP公开到脚本，因为网络的约束.它的设计方式也是服务器可以通过握手与HTTP服务器共享端口是有效的HTTP升级请求,一个可以在概念上使用另一个建立客户机-服务器消息传递的协议，但目的是WebSockets提供了一个相对简单的协议，可以与HTTP和部署的HTTP基础结构（如代理）共存这与TCP的使用安全性一样接近。基础设施考虑到安全因素，并有针对性地增加简化使用并保持简单的事情（如添加信息语义）。</p>
+<p>该协议旨在可扩展；将来的版本将可能会引入其他概念，如多路复用。</p>
+<h2 id="安全模型"><a href="#安全模型" class="headerlink" title="安全模型"></a>安全模型</h2><p><code>本节不规范</code></p>
+<p>WebSocket协议使用Web浏览器使用的源模型来限制哪些网页可以在WebSocket协议是从网页使用的。当然，当WebSocket协议由专用客户端直接使用（即从网页通过Web浏览器），源模型不是很有用，因为客户机可以提供任意的原始字符串。此协议旨在无法与现有协议（如smtp[rfc5321]和http）的服务器建立连接，同时允许http服务器根据需要选择支持此协议。这是通过严格而精心的握手来实现的。通过限制可以插入连接的数据在握手结束之前（从而限制了服务器的数量可能会受到影响）。</p>
+<p>同样，当数据从其他协议，特别是HTTP，发送到WebSocket服务器，例如，如果将HTML“表单”提交给WebSocket服务器。这主要是通过要求服务器证明它读取握手，只有当握手包含适当的部分，只能由WebSocket客户端。尤其是在写这篇文章的时候规范，以秒-开头的字段不能由来自仅使用HTML和JavaScript API的Web浏览器的攻击者作为xmlhttpRequest[xmlhttpRequest]。</p>
+<h2 id="与TCP和HTTP的关系"><a href="#与TCP和HTTP的关系" class="headerlink" title="与TCP和HTTP的关系"></a>与TCP和HTTP的关系</h2><p><code>本节不规范。</code></p>
+<p>WebSocket协议是一个独立的基于TCP的协议。它与HTTP的唯一关系是它的握手由作为升级请求的HTTP服务器。</p>
+<p>默认情况下，WebSocket协议将端口80用于常规WebSocket连接和端口443用于钻穿的WebSocket连接传输层安全性（TLS）[RFC2818]。</p>
+<h2 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h2><p><code>本节不规范</code></p>
+<p>当连接到HTTP共享的端口时服务器（很可能发生在端口80和443），HTTP服务器的连接将显示为作为一个常规的获取请求，提供升级服务。相对简单的仅具有一个IP地址和一个服务器的所有流量设置对于单个主机名，这可能会为系统提供一种实用的方法。基于要部署的WebSocket协议。更详细地说设置（例如，使用负载平衡器和多个服务器），专用用于与HTTP服务器分离的WebSocket连接的主机集可能更容易管理。在写这个的时候规格，应注意端口80和443具有显著不同的成功率，连接打开尽管如此，443的成功几率要大得多。随时间变化。</p>
+<h2 id="使用WebSocket协议的子协议"><a href="#使用WebSocket协议的子协议" class="headerlink" title="使用WebSocket协议的子协议"></a>使用WebSocket协议的子协议</h2><p><code>本节不规范</code></p>
+<p>客户机可以通过以下方式请求服务器使用特定的子协议：包括Sec-WebSocket-Protocol协议字段。如果它如果指定，则服务器需要包含同一字段和所选子协议值在其响应中用于连接到建立起来。</p>
+<p>这些子协议名称应按照第11.5节进行注册。到避免潜在的冲突，建议使用包含子协议域名的ASCII版本发起人。例如，如果公司要创建一个聊天子协议将由网络上的许多服务器实现，他们可以把它命名为“chat.example.com”。如果示例组织称他们竞争的子协议为“chat.example.org”，然后两个子协议可以由服务器同时实现，并且服务器根据客户发送的值。</p>
+<p>子协议可以通过以下方式以向后不兼容的方式进行版本控制：更改子协议名称，例如从“bookings.example.net”到“v2.bookings.example.net”。这些子协议将被视为完全独立于WebSocket。客户。向后兼容的版本控制可以通过重用相同的子协议字符串，但仔细设计支持这种可扩展性的实际子协议。</p>
+<h2 id="符合要求"><a href="#符合要求" class="headerlink" title="符合要求"></a>符合要求</h2><p>本规范中的所有图表、示例和注释均为非-规范性的，以及所有明确标记为非规范性的部分。本规范中的其他内容都是规范性的。</p>
+<p>关键词“必须”、“不得”、“必需”、“应”、“不得”，“应该”、“不应该”、“推荐”、“可以”和“可选”文件解释见[RFC2119]。</p>
+<p>命令中作为算法一部分的需求短语（例如“去掉任何前导空格字符”或“返回false并中止这些字符”步骤”）应按照关键词的含义进行解释。（must、should、may等）用于引入算法。</p>
+<p>作为算法或特定步骤的一致性要求可以以任何方式实施，只要最终结果是当量。（特别是，本文中定义的算法规范的目的是易于遵循，而不是表现出色。作为算法或特定步骤的一致性要求可以以任何方式实施，只要最终结果是当量。（特别是，本文中定义的算法规范的目的是易于遵循，而不是表现出色。</p>
+<h3 id="术语和其他约定"><a href="#术语和其他约定" class="headerlink" title="术语和其他约定"></a>术语和其他约定</h3><p><em>ascii</em> 是指在[ANSI.X3-4.1986]。</p>
+<p>本文档引用了utf-8值并使用了utf-8标准63[RFC3629]中定义的符号格式。</p>
+<p>关键术语，如命名算法或定义，如 <em>this</em>。</p>
+<p>标题字段或变量的名称指示如下 |this|</p>
+<p>变量值的指示方式为 /this/。</p>
+<p>此文档引用的过程用于使WebSocket <em>Fail the WebSocket<br>   Connection</em>。本程序在第7.1.7节中定义。</p>
+<p><em>将字符串转换为ASCII小写</em> 表示全部替换U+0041到U+005a范围内的字符（即，拉丁文大写字母a到拉丁文大写字母z），其中包含范围U+0061到U+007A（即，拉丁文小写字母A到拉丁文小写字母Z）</p>
+<p>以不区分大小写的方式比较两个字符串意味着比较它们，代码点对应代码点，除了U+0041到U+005a范围内的字符（即，拉丁文大写字母a到拉丁文大写字母z）以及范围U+0061到U+007A（即，拉丁文小写字母A到拉丁文小写字母z）也被认为是匹配的。</p>
+<p>术语“uri”在本文件中使用，定义见[rfc3986]。</p>
+<p>当需要实现将数据作为WebSocket协议，实现时可能会延迟任意传输，例如缓冲数据，以便发送更少的IP小包。</p>
+<p>请注意，本文档同时使用了[rfc5234]和[rfc2616]的变体不同部分的ABNF。</p>
+<h2 id="WebSocket-URIs"><a href="#WebSocket-URIs" class="headerlink" title="WebSocket URIs"></a>WebSocket URIs</h2><p>本规范使用abnf语法定义了两个URI方案。在RFC5234[RFC5234]中定义，以及术语和ABNF生成由URI规范RFC 3986[RFC3986]定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ws-URI = &quot;ws:&quot; &quot;//&quot; host [ &quot;:&quot; port ] path [ &quot;?&quot; query ]</span><br><span class="line">wss-URI = &quot;wss:&quot; &quot;//&quot; host [ &quot;:&quot; port ] path [ &quot;?&quot; query ]</span><br><span class="line"></span><br><span class="line">host = &lt;host, defined in [RFC3986], Section 3.2.2&gt;</span><br><span class="line">port = &lt;port, defined in [RFC3986], Section 3.2.3&gt;</span><br><span class="line">path = &lt;path-abempty, defined in [RFC3986], Section 3.3&gt;</span><br><span class="line">query = &lt;query, defined in [RFC3986], Section 3.4&gt;</span><br></pre></td></tr></table></figure>
+<p>端口组件是可选的；“ws”的默认值是端口80，而“wss”的默认值是端口443。</p>
+<p>这个URI被称为“安全”（也就是说，“安全标志是设置”），如果方案组件不敏感地匹配“wss”大小写。</p>
+<p>“资源名称”（在第4.1节中也称为/resource name/）可以通过连接以下内容来构造：</p>
+<ul>
+<li>“/”如果路径组件为空</li>
+<li>路径组件</li>
+<li>“？”如果查询组件不是空的</li>
+<li>查询组件</li>
+</ul>
+<p>片段标识符在WebSocket URI上下文中没有意义不能在这些URI上使用。和任何URI方案一样，字符“”，当不指示片段的开头时，必须被精简为%23。</p>
+<h2 id="开始握手-1"><a href="#开始握手-1" class="headerlink" title="开始握手"></a>开始握手</h2><h3 id="客户要求"><a href="#客户要求" class="headerlink" title="客户要求"></a>客户要求</h3><p>要建立WebSocket连接，客户端将打开一个连接并发送本节中定义的握手。客户端打开连接并发送本节中定义的握手。连接是定义为最初处于连接状态。客户需要提供a/host/、/port/、/resource name/和a/secure/flag，其中是第3节中讨论的WebSocket URI的组件吗？以及要使用的/protocols/和/extensions/列表。此外，如果客户机是Web浏览器，则它提供/origin/。在受控环境中运行的客户端，例如移动浏览器与特定运营商绑定的手机可能会降低连接到网络上的另一个代理。在这种情况下，就本规范而言，客户被视为包括手机软件和任何此类代理。</p>
+<p>当客户端要建立一个WebSocket连接时/host/、/port/、/resource name/和/secure/flag），以及要使用的/protocols/和/extensions/列表，以及an/origin/in在Web浏览器的情况下，它必须打开一个连接，发送一个打开握手，并读取服务器的握手响应.确切的如何打开连接的要求，应该打开什么在开始握手时发送，以及服务器的响应应该如何解释如下。在下面文本，我们将使用第3节中的术语，例如“/host/”和该节中定义的“/secure/flag”</p>
+<p>1、传入此算法的WebSocket URI的组件（/host/、/port/、/resource name/和/secure/flag）必须为根据指定的WebSocket URI规范有效在第3节中。如果任何组件无效，则客户端必须使WebSocket连接失败并中止这些步骤。<br>2、如果客户端已经有到远程服务器的WebSocket连接主机（IP地址）由/host/和端口/port/对，偶数如果远程主机的名称为其他名称，则客户端必须等待直到该连接建立或用于该连接失败了。在一个连接状态。如果多个连接到同一IP地址同时尝试，客户端必须序列化它们，以便一次运行的连接不超过一个通过以下步骤。<br>如果客户端无法确定远程主机的IP地址（例如，因为所有通信都是通过执行DNS查询本身的代理服务器）,然后客户在本步骤中，必须假定每个主机名引用不同的远程主机，而客户端应该限制同时挂起连接到数量相当少（例如，客户可能允许同时挂起到a.example.com和b.example.com的连接,但如果请求30个同时连接到单个主机的连接，那可能是不允许的),例如，在Web浏览器上下文中，客户机需要考虑用户打开的选项卡的数量。对同时挂起的数目设置限制时连接。<br>注意：这使得脚本更难执行拒绝-只打开大量websocket的服务攻击到远程主机的连接,服务器可以进一步减少当受到攻击时，在关闭连接，因为这将降低客户端重新连接。<br>注：已建立的WebSocket数量没有限制客户端可以与单个远程主机建立的连接。服务器可以拒绝接受来自主机/IP地址的连接现有连接或断开资源的数量过多-承受高负荷时的拱起连接。<br>3、_代理使用情况\：如果客户机配置为在以下情况下使用代理使用WebSocket协议连接到主机/host/和端口/port/，然后客户端应该连接到该代理并询问它打开到/host/指定的主机和端口的TCP连接由/port/给出。</p>
+<p>例如，如果客户机使用HTTP代理通信量，然后如果要尝试连接到服务器上的端口80 example.com，它可能会将以下行发送到代理服务器： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONNECT example.com:80 HTTP/1.1</span><br><span class="line">Host: example.com</span><br></pre></td></tr></table></figure>
+<p>如果需要密码,则连接可能需要加上:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONNECT example.com:80 HTTP/1.1</span><br><span class="line">Host: example.com</span><br><span class="line">Proxy-authorization: Basic ZWRuYW1vZGU6bm9jYXBlcyE=</span><br></pre></td></tr></table></figure>
+<p>如果客户端未配置为使用代理，则直接TCP应打开与/host/指定的主机的连接，并且端口由/port/给定。</p>
+<p>注意：不为公开显式UI的实现为WebSocket连接选择与其他连接分开的代理建议代理使用socks5[rfc1928]代理WebSocket连接（如果可用）或失败，则首选为代理服务器上的HTTPS连接配置的代理服务器为HTTP连接配置。</p>
+<p>出于代理自动配置脚本的目的，URI pass函数必须从/host/、/port/构造。/资源名/，以及使用WebSocket URI如第3节所示。</p>
+<p>注意：WebSocket协议可以在代理中标识。方案中的自动配置脚本（“ws”表示未加密连接和加密连接的“wss”）。</p>
+<p>4、如果无法打开连接，可能是因为连接失败或由于使用的任何代理返回错误，然后客户端必须\使WebSocket连接失败并中止连接尝试。</p>
+<p>5、如果/secure/为真，则客户端必须执行TLS握手打开连接后发送前的连接握手数据[RFC2818]。如果失败（例如，服务器的无法验证证书），则客户端必须失败WebSocket连接并中止连接。否则，此频道上的所有进一步通信必须通过加密隧道[RFC5246]。</p>
+<p>客户端必须在TLS中使用服务器名称指示扩展握手[RFC066]。</p>
+<p>一旦与服务器建立了连接（包括通过代理或通过TLS加密隧道进行连接），客户端必须向服务器发送开始握手。握手包括HTTP升级请求，以及所需和可选标题字段。握手的要求如下.</p>
+<ul>
+<li>握手必须是由指定的有效HTTP请求[RCF2616]。</li>
+<li>请求的方法必须是get，HTTP版本必须至少为1.1。例如，如果websocket uri是“ws://example.com/chat”，发送的第一行应该是“get/chat http/1.1”。</li>
+<li>请求的“Request-URI”部分必须与/resource匹配名称/在第3节（相对URI）中定义或绝对HTTP/HTTPS URI，解析时具有/resource name/，/host/，和/port/匹配相应的WS/WSS URI。</li>
+<li>请求必须包含一个值为包含/host/plus（可选）：“后跟/port/（如果不是）使用默认端口）。</li>
+<li>请求必须包含一个upgrade头字段，其值为必须包含“websocket”关键字。</li>
+<li>请求必须包含一个连接头字段，其值为必须包含“Upgrade”令牌。</li>
+<li>请求必须包含名称为的头字段Sec-WebSocket-Key密钥。此标题字段的值必须是包含随机选择的16字节值的nonce已进行base64编码（见[rfc4648]第4节）。临时工必须为每个连接随机选择。<br>注：例如，如果随机选择的值是字节序列0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x090x0A 0x0B 0x0C 0x0D 0x0E 0x0F 0x10，头的值字段将为“aqidBaugbwgjcgsmdq4pec==”</li>
+<li>请求必须包含名称为“Origin”的标题字段[RFC6454]如果请求来自浏览器客户端。如果连接来自非浏览器客户端，请求可能如果该客户机的语义匹配，则包括此头字段这里描述的浏览器客户端的用例。头字段的值是建立连接的代码所处的上下文运行。有关此标题字段如何被构建的详细信息，请参阅[RFC6454]。</li>
+</ul>
+<p>例如，如果从<a href="http://www.example.com下载的代码试图建立到ww2.example.com的连接，则头字段的值将为“http://www.example.com”。" target="_blank" rel="noopener">www.example.com下载的代码试图建立到ww2.example.com的连接，则头字段的值将为“http://www.example.com”。</a></p>
+<ul>
+<li>请求必须包含名称为的头字段Sec-WebSocket-Version版本。此标题字段的值必须为13。<br>注：尽管本文件的草稿版本为-09，-10，-11，和-12）被发布（它们主要由编辑组成）变更和澄清，而不是变更电线。协议），值9、10、11和12无效sec-websocket版本的值。这些值保留在IANA注册表，但未使用和将不使用。<br>注：尽管本文件的草稿版本为-09，-10，-11，和-12）被发布（它们主要由编辑组成）变更和澄清，而不是变更电线。协议），值9、10、11和12无效Sec-WebSocket-Version的值。这些值保留在IANA注册表，但未使用和将不使用。</li>
+<li>请求可以包含一个带有名称的头字段|Sec-WebSocket-Protocol|,如果存在，该值表示一个或者客户希望说的逗号分隔的子协议，按首选项排序,构成该值的元素必须是非空字符串，字符范围为U+0021到U+007E不包括中定义的分隔符[RFC2616]并且必须都是唯一的字符串。ABNF头字段的值为 1#token,其中的定义构造和规则如[RFC2616]所示</li>
+<li>请求可以包含一个带有名称的头字段| sec-websocket扩展。如果存在，该值表示客户端希望讲话的协议级扩展。这个标题字段的解释和格式如第9.1节。</li>
+<li><p>请求可以包括任何其他头字段，例如，cookies[rfc6265]和/或与身份验证相关的头字段例如授权头字段[RFC2616]，它是根据定义它们的文档进行处理。<br>一旦发送了客户端的开始握手，客户端必须在发送任何进一步的数据之前，请等待服务器的响应。客户端必须按如下方式验证服务器的响应：</p>
+<ul>
+<li>如果从服务器接收到的状态代码不是101，则客户机根据HTTP[RFC2616]过程处理响应。在特别是，如果客户机接收401状态代码；服务器可能会重定向客户端使用3xx状态代码（但不要求客户机遵循否则，按以下步骤进行。</li>
+<li>如果响应缺少升级头字段或升级|头字段包含一个不是ASCII大小写的值-对于值“websocket”不敏感的匹配，客户端必须_ WebSocket连接失败。</li>
+<li>如果响应缺少Connection头字段或Connection头字段“Upgrade”不包含不区分大小写的ASCII token值，客户端必须使WebSocket连接失败。</li>
+<li>如果响应缺少Sec-WebSocket-Accept头字段或Sec-WebSocket-Accept包含除base64编码的Sec-WebSocket-Key的sha-1-键（作为字符串，而不是base64解码），字符串“258eafa5-E914-47DA-95CA-C5AB0DC85B11”，但忽略任何前导和尾随空白，客户端必须使WebSocket失败连接。</li>
+<li>如果响应包含Sec-WebSocket-Extensions扩展头字段和此标题字段指示扩展名的使用在客户机握手中不存在（服务器表示客户端未请求扩展），客户端必须使WebSocket连接失败。（对这个的分析确定请求扩展的头字段是在第9.1节中讨论。）</li>
+<li>如果响应包含Sec-WebSocket-Protocol头字段,这个头字段表示使用的子协议不存在于客户端握手中（服务器已指示客户端未请求子协议），客户端必须失败WebSocket连接。</li>
+</ul>
+</li>
+</ul>
+<p>如果服务器的响应不符合本节和第4.2.2节中定义的服务器握手，客户端必须使WebSocket连接失败。</p>
+<p>请注意，根据[RFC2616]中的所有标题字段名HTTP请求和HTTP响应都不区分大小写。</p>
+<p>如果服务器的响应按照上述规定进行了验证，则说，websocket连接已经建立，并且WebSocket连接处于打开状态.正在使用的扩展_定义为（可能为空）字符串，其值为等于Sec-WebSocket-Extensions 头字段的值由服务器握手或空值（如果该头为空）提供服务器握手中不存在字段。<em>Subprotocol In Use</em>被定义为| Sec-WebSocket-Protocol |的值 服务器握手中的头字段或服务器握手中不存在该头字段的空值。此外，如果服务器握手中的任何头字段指示应设置cookie（由[RFC6265]定义），则这些cookie在服务器的打开握手期间称为_Cookies Set。</p>
+<h2 id="服务端要求"><a href="#服务端要求" class="headerlink" title="服务端要求"></a>服务端要求</h2><p>服务器可以卸载到网络上其他代理的连接管理，例如，负载平衡器和反向代理。 在这种情况下，出于本规范的目的，服务器被认为包括来自第一设备的服务器端基础结构的所有部分，以终止TCP连接一直到处理请求和发送响应的服务器。</p>
+<p>示例：数据中心可能有响应WebSocket的服务器使用适当的握手请求，然后通过连接到另一个服务器来实际处理数据帧。对于在本规范中，“服务器”是两台计算机。</p>
+<h3 id="读取客户端的打开握手"><a href="#读取客户端的打开握手" class="headerlink" title="读取客户端的打开握手"></a>读取客户端的打开握手</h3><p>当客户端启动WebSocket连接时，它会发送其打开握手的一部分。服务器必须至少解析此握手的一部分，以获得生成握手的服务器部分所需的信息。</p>
+<p>客户的开放握手由以下部分组成。 如果服务器在读取握手时发现客户端没有发送与下面描述匹配的握手（请注意，根据[RFC2616]，标头字段的顺序并不重要），包括但不限于任何违规 对于握手组件指定的ABNF语法，服务器必须停止处理客户端的握手并返回带有适当错误代码的HTTP响应（例如400 Bad Request）。</p>
+<ul>
+<li>HTTP / 1.1或更高版本的GET请求，包括“Request-URI” [ RFC2616 ]应该被解释为/资源名称/第3节中定义的（或包含的绝对HTTP / HTTPS URI）/资源名称/）。</li>
+<li>Host 包含服务器权限的头字段。</li>
+<li>|Upgrage| 包含值“websocket”的头字段，被视为ASCII不区分大小写的值。</li>
+<li>|Connection| 标题字段，包含标记“Upgrade”,作为ASCII不区分大小写的值处理。</li>
+<li>| Sec-WebSocket-Key | 具有base64编码的头字段（参见[RFC4648]的第4节）值，当解码时，其长度为16个字节。</li>
+<li>| Sec-WebSocket-Version | 头字段，值为13. </li>
+<li>可选地，| Origin | 标题字段。此标头字段由所有浏览器客户端发送。缺少此 标头字段的连接尝试不应被解释为来自浏览器客户端。</li>
+<li>（可选）| Sec-WebSocket-Protocol | 标题字段，带有一个值列表，指示客户端想要说出哪些协议，按优先顺序排序。</li>
+<li>可选）| Sec-WebSocket-Extensions | 标题字段，带有一个值列表，指示客户端想要说的扩展名。此标头字段的解释讨论在第9.1节。</li>
+<li>可选地，其他标头字段，例如用于向服务器发送cookie或请求身份验证的字段。根据[ RFC2616 ]，将忽略未知的标头字段。</li>
+</ul>
+<h2 id="发送服务器的开放握手"><a href="#发送服务器的开放握手" class="headerlink" title="发送服务器的开放握手"></a>发送服务器的开放握手</h2><p>当客户端建立与服务器的WebSocket连接时，服务器必须完成以下步骤以接受连接并发送服务器的打开握手。</p>
+<ul>
+<li>1.如果连接发生在HTTPS（HTTP-over-TLS）端口上，请对连接执行TLS握手。如果失败（例如，客户端在扩展客户端hello“server_name”扩展名中指示了服务器未托管的主机名），则关闭连接; 否则，连接的所有进一步通信（包括服务器的握手）必须通过加密隧道[ RFC5246 ]。</li>
+<li>服务器可以执行其他客户端身份验证，例如，通过返回具有相应的| WWW-Authenticate | 的401状态代码 标题字段，如[ RFC2616 ]中所述。</li>
+<li>服务器可以使用3xx状态代码[ RFC2616 ] 重定向客户端。注意，该步骤可以与上述可选认证步骤一起，之前或之后发生。</li>
+<li>建立以下信息：<ul>
+<li>/ origin / The | Origin | 客户端握手中的头字段指示建立连接的脚本的来源。该origin被序列化为ASCII并转换为小写。该服务器可以使用此信息作为确定的部分是否接受传入的连接。如果服务器未验证原点，它将接受来自任何地方的连接。如果服务器不希望接受此连接，它必须返回适当的HTTP错误代码（例如，403 Forbidden）并中止本节中描述的WebSocket握手。有关更多详细信息，请参阅第10节。</li>
+<li>/ key / | Sec-WebSocket-Key | 客户端握手中的头字段包括base64编码的值，如果解码，则其       长度为16个字节。此（编码）值用于创建服务器的握手以指示接受连接。服务器无需    对Sec-WebSocket-Key | 进行64位解码值。</li>
+<li>/ version /The | Sec-WebSocket-Version | 客户端握手中的头字段包括客户端尝试与之通信的WebSocket协议的版本。如果此版本与服务器理解的版本不匹配，则服务器必须中止本节中描述的WebSocket握手，而是发送适当的HTTP错误代码（例如426需要升级）和|Sec-WebSocket-Version | 标题字段，指示服务器能够理解的版本。</li>
+<li>/ resource name / 服务器提供的服务的标识符。如果服务器提供多个服务，则该值应该从GET方法的“Request-URI”[ RFC2616 ]中客户端握手中给出的资源名称派生。如果请求的服务不可用，服务器必须发送适当的HTTP错误代码（例如404 Not Found）并中止WebSocket握手。</li>
+<li>/ subprotocol /表示服务器可以使用的子协议的单个值或null。选择的值必须得出来自客户端的握手，特别是从| Sec-WebSocket-Protocol |中选择一个值服务器愿意用于此连接的字段（如果有）。如果客户端的握手不包含此类标头字段，或者服务器不同意客户端请求的任何子协议，则唯一可接受的值为null。缺少这样的字段等同于空值（意味着如果服务器不希望同意其中一个建议的子协议，则它不得在其响应中发回| Sec-WebSocket-Protocol | 头字段）。空字符串不是与用于这些目的的null值相同，并且不是此字段的合法值。此标头字段值的ABNF 是（标记），其中构造和规则的定义如[ RFC2616 ]中所述。</li>
+<li>/ extensions / （可能为空）列表，表示服务器准备使用的协议级扩展。如果服务器支持多个扩展，则必须从客户端的握手中获取值，特别是通过从| Sec-WebSocket-Extensions |中选择一个或多个值.领域。该没有这样的字段相当于空值。所述空字符串不是一样的这些空值目的。未列出客户未列出的扩展名.第9.1节讨论了选择和解释这些值的方法。</li>
+</ul>
+</li>
+<li>如果服务器选择接受传入连接，它必须使用指示以下内容的有效HTTP响应进行回复。<ul>
+<li>1.根据 RFC 2616[ RFC2616 ]，具有101响应代码的状态行。这样的响应可能看起来像“HTTP / 1.1 101交换协议”。</li>
+<li>|升级| 标题字段，其值为“websocket”RFC 2616 [ RFC2616 ]。</li>
+<li>|连接| 标题字段，其值为“Upgrade”。</li>
+<li>| Sec-WebSocket-Accept | 标题字段。此头字段的值通过将上面第4.2.2节中的步骤4中定义的/ key / 与字符串“258EAFA5-E914-47DA-95CA-C5AB0DC85B11”连接起来构建，获取此连接值的SHA-1哈希值获得一个20字节的值和base64 编码（参见[RFC4648]的第4节）这个20字节的散列。此标头字段的ABNF [ RFC2616 ]定义如下：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Accept     = base64-value-non-empty</span><br><span class="line">base64-value-non-empty = (1*base64-data [ base64-padding ]) |</span><br><span class="line">                        base64-padding</span><br><span class="line">base64-data      = 4base64-character</span><br><span class="line">base64-padding   = (2base64-character &quot;==&quot;) |</span><br><span class="line">                  (3base64-character &quot;=&quot;)</span><br><span class="line">base64-character = ALPHA | DIGIT | &quot;+&quot; | &quot;/&quot;</span><br></pre></td></tr></table></figure>
+<p>注意：例如，如果是| Sec-WebSocket-Key |的值客户端握手中的头字段为“dGhlIHNhbXBsZSBub25jZQ ==”，服务器会追加字符串“258EAFA5-E914-47DA-95CA-C5AB0DC85B11”以形成字符串“C5AB0DC85B11“。然后服务器将获取该字符串的SHA-1哈希值，给出值0xb3 0x7a 0x4f 0x2c 0xc0 0x62 0x4f 0x16 0x900xf6 0x46 0x06 0xcf 0x38 0x59 0x45 0xb2 0xbe 0xc4 0xea。此值然后是base64编码，到给出值“s3pPLMBiTxaQ9kYGzzhZRbK + xOo =”，它将在| Sec-WebSocket-Accept |头字段中返回</p>
+<pre><code>+ 可选地，一个| Sec-WebSocket-Protocol |头字段，其值为/ subprotocol /步骤4在第4.2.2节
++ 可选，| Sec-WebSocket-Extensions | 标题字段，带有值/ extensions /，如第4.2.2节中的步骤4所定义。如果要使用多个扩展，它们都可以列在单个| Sec-WebSocket-Extensions |中 头字段或在| Sec-WebSocket-Extensions |的多个实例之间拆分标题字段。
+</code></pre><p>这样就完成了服务器的握手。如果服务器在不中止WebSocket握手的情况下完成这些步骤，则服务器认为要建立WebSocket连接并且WebSocket连接处于OPEN状态。此时，服务器可以开始发送（和接收）数据。</p>
+<h2 id="为握手中使用的新标题字段收集ABNF"><a href="#为握手中使用的新标题字段收集ABNF" class="headerlink" title="为握手中使用的新标题字段收集ABNF"></a>为握手中使用的新标题字段收集ABNF</h2><p>本节使用[RFC2616] 第2.1节中的ABNF语法/规则，包括“隐含的* LWS规则”。 </p>
+<p>请注意，本节中使用了以下ABNF约定。规则的某些名称对应于相应标头字段的名称。这些规则表示相应头字段的值，例如，Sec-WebSocket-Key ABNF规则描述了| Sec-WebSocket-Key |的语法。标题字段值。名称中带有“-Client”后缀的ABNF规则仅用于客户端发送给服务器的请求中; 名称中带有“-Server”后缀的ABNF规则仅用于服务器发送给客户端的响应中。例如，ABNF规则Sec-WebSocket-Protocol-Client描述了| Sec-WebSocket-Protocol |的语法。客户端发送给服务器的头字段值。</p>
+<p>在从客户端到服务器的握手期间，可以发送以下新的头字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Key = base64-value-non-empty</span><br><span class="line">Sec-WebSocket-Extensions = extension-list</span><br><span class="line">Sec-WebSocket-Protocol-Client = 1#token</span><br><span class="line">Sec-WebSocket-Version-Client = version</span><br><span class="line"></span><br><span class="line">base64-value-non-empty = (1*base64-data [ base64-padding ]) |</span><br><span class="line">                        base64-padding</span><br><span class="line">base64-data      = 4base64-character</span><br><span class="line">base64-padding   = (2base64-character &quot;==&quot;) |</span><br><span class="line">                 (3base64-character &quot;=&quot;)</span><br><span class="line">base64-character = ALPHA | DIGIT | &quot;+&quot; | &quot;/&quot;</span><br><span class="line">extension-list = 1#extension</span><br><span class="line">extension = extension-token *( &quot;;&quot; extension-param )</span><br><span class="line">extension-token = registered-token</span><br><span class="line">registered-token = token</span><br><span class="line">extension-param = token [ &quot;=&quot; (token | quoted-string) ]</span><br><span class="line">           ; When using the quoted-string syntax variant, the value</span><br><span class="line">           ; after quoted-string unescaping MUST conform to the</span><br><span class="line">           ; &apos;token&apos; ABNF.</span><br><span class="line">NZDIGIT       =  &quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot; | &quot;6&quot; |</span><br><span class="line">               &quot;7&quot; | &quot;8&quot; | &quot;9&quot;</span><br><span class="line">version = DIGIT | (NZDIGIT DIGIT) |</span><br><span class="line">        (&quot;1&quot; DIGIT DIGIT) | (&quot;2&quot; DIGIT DIGIT)</span><br><span class="line">        ; Limited to 0-255 range, with no leading zeros</span><br></pre></td></tr></table></figure>
+<p>在从服务器到客户端的握手期间，可以发送以下新头字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions = extension-list</span><br><span class="line">Sec-WebSocket-Accept     = base64-value-non-empty</span><br><span class="line">Sec-WebSocket-Protocol-Server = token</span><br><span class="line">Sec-WebSocket-Version-Server = 1#version</span><br></pre></td></tr></table></figure>
+<h2 id="支持WebSocket协议的多个版本"><a href="#支持WebSocket协议的多个版本" class="headerlink" title="支持WebSocket协议的多个版本"></a>支持WebSocket协议的多个版本</h2><p>本节提供有关在客户端和服务器中支持多个版本的WebSocket协议的一些指导。</p>
+<p>使用WebSocket版本广告功能（| Sec-WebSocket-Version |头字段），客户端最初可以请求它喜欢的WebSocket协议版本（不一定必须是客户端支持的最新版本）。如果服务器支持所请求的版本且握手消息有效，则服务器将接受该版本。如果服务器不支持所请求的版本，它必须以| Sec-WebSocket-Version | 响应 标题字段（或多个|二段的WebSocket-版| 标题字段）包含它愿意使用的所有版本。此时，如果客户端支持其中一个广告版本，则可以使用新版本值重复WebSocket握手。</p>
+<p>以下示例演示了上述版本协商：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">...</span><br><span class="line">Sec-WebSocket-Version: 25</span><br></pre></td></tr></table></figure></p>
+<p>服务器的响应可能如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">...</span><br><span class="line">Sec-WebSocket-Version: 13, 8, 7</span><br></pre></td></tr></table></figure>
+<p>请注意，服务器的最后一个响应可能如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">...</span><br><span class="line">Sec-WebSocket-Version: 13</span><br><span class="line">Sec-WebSocket-Version: 8, 7</span><br></pre></td></tr></table></figure>
+<p>客户端现在重复符合版本13的握手：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">...</span><br><span class="line">Sec-WebSocket-Version: 13</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据框架"><a href="#数据框架" class="headerlink" title="数据框架"></a>数据框架</h2><h3 id="概观"><a href="#概观" class="headerlink" title="概观"></a>概观</h3><p>在WebSocket协议中，使用一系列帧来传输数据。为避免混淆网络中介（例如拦截代理）以及出于安全原因（第10.3节中进一步讨论），客户端必须屏蔽它发送给服务器的所有帧（有关详细信息，请参见第5.3节）。（请注意，无论WebSocket协议是否在TLS 上运行，都会进行屏蔽。）服务器必须在收到未屏蔽的帧时关闭连接。在这种情况下，服务器可以发送一个关闭帧，其状态代码为1002（协议错误），如第7.4.1节中所定义。服务器不得屏蔽它发送给客户端的任何帧。如果客户端检测到屏蔽帧，则必须关闭连接。在这种情况下，它可以使用第7.4.1节中定义的状态代码1002（协议错误）。（这些规则可能在未来的规范中放宽。）基本帧协议定义了一种帧类型，其中包含操作码，有效载荷长度以及“扩展数据”和“应用数据”的指定位置，它们共同定义了“有效载荷数据”。 。某些位和操作码保留用于协议的未来扩展。</p>
+<p>数据帧可以在打开握手完成之后和该端点发送关闭帧之前由客户端或服务器传输（第5.5.1节）。</p>
+<h3 id="基本框架协议"><a href="#基本框架协议" class="headerlink" title="基本框架协议"></a>基本框架协议</h3><p>数据传输部分的这种有线格式由本节详细给出的ABNF[ RFC5234 ]描述。（注意，与本文档的其他部分不同，本节中的ABNF操作位组。每组位的长度在注释中指示。当在线上编码时，最重要的位是最左边的位在ABNF）。下图给出了框架的高级概述。如果下图与本节后面指定的ABNF发生冲突，则该图具有权威性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> 0                   1                   2                   3</span><br><span class="line"> 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1</span><br><span class="line">+-+-+-+-+-------+-+-------------+-------------------------------+</span><br><span class="line">|F|R|R|R| opcode|M| Payload len |    Extended payload length    |</span><br><span class="line">|I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |</span><br><span class="line">|N|V|V|V|       |S|             |   (if payload len==126/127)   |</span><br><span class="line">| |1|2|3|       |K|             |                               |</span><br><span class="line">+-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +</span><br><span class="line">|     Extended payload length continued, if payload len == 127  |</span><br><span class="line">+ - - - - - - - - - - - - - - - +-------------------------------+</span><br><span class="line">|                               |Masking-key, if MASK set to 1  |</span><br><span class="line">+-------------------------------+-------------------------------+</span><br><span class="line">| Masking-key (continued)       |          Payload Data         |</span><br><span class="line">+-------------------------------- - - - - - - - - - - - - - - - +</span><br><span class="line">:                     Payload Data continued ...                :</span><br><span class="line">+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +</span><br><span class="line">|                     Payload Data continued ...                |</span><br><span class="line">+---------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>FIN：1位</p>
+<p>表示这是消息中的最后一个片段。第一个片段也可以是最终片段。</p>
+<p>RSV1，RSV2，RSV3：每个1位</p>
+<p>除非协商扩展来定义非零值的含义，否则必须为0 。如果收到非零值且没有任何协商的扩展定义了这种非零值的含义，则接收端点必须<em>Fail WebSocket Connection</em>。</p>
+<p>操作码：4位</p>
+<p>定义“有效载荷数据”的解释。如果收到未知的操作码，接收端点必须<em>Fail WebSocket Connection</em>。定义了以下值。</p>
+<p><em>％x0表示连续帧
+</em>％x1表示文本框<br><em>％x2表示二进制帧
+</em>％x3-7为其他非控制帧保留<br><em>％x8表示连接关闭
+</em>％x9表示ping<br><em>％xA表示为pong
+</em>％xB-F保留用于进一步的控制帧</p>
+<p>掩码：1位</p>
+<p>定义是否屏蔽“有效载荷数据”。如果设置为1，则屏蔽密钥中存在屏蔽密钥，这用于根据第5.3节取消屏蔽“有效负载数据” 。从客户端发送到服务器的所有帧都将此位设置为1. </p>
+<p>有效负载长度：7位，7 + 16位或7 + 64位</p>
+<p>“有效载荷数据”的长度，以字节为单位：如果是0-125，那就是有效载荷长度 如果为126，则将以下2个字节解释为a16位无符号整数是有效负载长度。如果是127，那么以下8个字节被解释为64位无符号整数（最重要的位必须是0）是有效载荷长度。多字节长度数量以网络字节顺序表示。注意在所有情况下，必须使用最小字节数进行编码长度，例如，一个124字节长的字符串的长度不能编码为序列126,0,124。有效载荷长度是“扩展数据”的长度+长度 “申请数据”。“扩展数据”的长度可以是零，在这种情况下，有效载荷长度是“申请数据”。</p>
+<p>屏蔽密钥：0或4个字节</p>
+<p>从客户端发送到服务器的所有帧都被a屏蔽帧中包含的32位值。这个领域是如果掩码位设置为1则存在，如果掩码位不存在则存在设置为0.有关客户端的更多信息，请参见第5.3节。到服务器屏蔽。</p>
+<p>有效载荷数据：（x + y）个字节</p>
+<p>“有效载荷数据”被定义为连接的“扩展数据”与“应用程序数据”。</p>
+<p>扩展数据：x个字节</p>
+<p>除非有扩展名，否则“扩展数据”为0字节协商。任何扩展必须指定的长度“扩展数据”，或者如何计算该长度，以及如何计算扩展使用必须在打开握手期间协商。如果存在，则“扩展数据”包括在总有效载荷中长度。</p>
+<p>应用程序数据：y字节</p>
+<p>任意“应用程序数据”，占用框架的剩余部分在任何“扩展数据”之后。“应用程序数据”的长度等于有效载荷长度减去“扩展名”的长度数据”。</p>
+<p>基本成帧协议由以下ABNF正式定义[ RFC5234 ]。重要的是要注意这个的表示数据是二进制，而不是ASCII字符。因此，具有长度的字段取值为％x0 /％x1的1位表示为单个位其值为0或1，而不是代表的完整字节（八位字节）ASCII编码中的字符“0”或“1”。有长度的字段在％x0-F之间的值的4位再次由4位表示，再次不是由ASCII字符或全字节（八位字节）与这些值。[ RFC5234 ]未指定字符编码：“规则解析为一串终端值，有时称为字符。在ABNF中，字符仅仅是非负整数。在某些上下文中，将值特定映射（编码）为a将指定字符集（例如ASCII）。“在这里，指定编码是每个终端值所在的二进制编码以指定的位数编码，每个字段都有所不同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">ws-frame                = frame-fin           ; 1 bit in length</span><br><span class="line">                          frame-rsv1          ; 1 bit in length</span><br><span class="line">                          frame-rsv2          ; 1 bit in length</span><br><span class="line">                          frame-rsv3          ; 1 bit in length</span><br><span class="line">                          frame-opcode        ; 4 bits in length</span><br><span class="line">                          frame-masked        ; 1 bit in length</span><br><span class="line">                          frame-payload-length   ; either 7, 7+16,</span><br><span class="line">                                                 ; or 7+64 bits in</span><br><span class="line">                                                 ; length</span><br><span class="line">                          [ frame-masking-key ]  ; 32 bits in length</span><br><span class="line">                          frame-payload-data     ; n*8 bits in</span><br><span class="line">                                                 ; length, where</span><br><span class="line">                                                 ; n &gt;= 0</span><br><span class="line"></span><br><span class="line">frame-fin               = %x0 ; more frames of this message follow</span><br><span class="line">                        / %x1 ; final frame of this message</span><br><span class="line">                              ; 1 bit in length</span><br><span class="line"></span><br><span class="line">frame-rsv1              = %x0 / %x1</span><br><span class="line">                          ; 1 bit in length, MUST be 0 unless</span><br><span class="line">                          ; negotiated otherwise</span><br><span class="line"></span><br><span class="line">frame-rsv2              = %x0 / %x1</span><br><span class="line">                          ; 1 bit in length, MUST be 0 unless</span><br><span class="line">                          ; negotiated otherwise</span><br><span class="line"></span><br><span class="line">frame-rsv3              = %x0 / %x1</span><br><span class="line">                          ; 1 bit in length, MUST be 0 unless</span><br><span class="line">                          ; negotiated otherwise</span><br><span class="line"></span><br><span class="line">frame-opcode            = frame-opcode-non-control /</span><br><span class="line">                          frame-opcode-control /</span><br><span class="line">                          frame-opcode-cont</span><br><span class="line"></span><br><span class="line">frame-opcode-cont       = %x0 ; frame continuation</span><br><span class="line"></span><br><span class="line">frame-opcode-non-control= %x1 ; text frame</span><br><span class="line">                        / %x2 ; binary frame</span><br><span class="line">                        / %x3-7</span><br><span class="line">                        ; 4 bits in length,</span><br><span class="line">                        ; reserved for further non-control frames</span><br><span class="line"></span><br><span class="line">frame-opcode-control    = %x8 ; connection close</span><br><span class="line">                        / %x9 ; ping</span><br><span class="line">                        / %xA ; pong</span><br><span class="line">                        / %xB-F ; reserved for further control</span><br><span class="line">                                ; frames</span><br><span class="line">                                ; 4 bits in length</span><br><span class="line">frame-masked            = %x0</span><br><span class="line">                        ; frame is not masked, no frame-masking-key</span><br><span class="line">                        / %x1</span><br><span class="line">                        ; frame is masked, frame-masking-key present</span><br><span class="line">                        ; 1 bit in length</span><br><span class="line"></span><br><span class="line">frame-payload-length    = ( %x00-7D )</span><br><span class="line">                        / ( %x7E frame-payload-length-16 )</span><br><span class="line">                        / ( %x7F frame-payload-length-63 )</span><br><span class="line">                        ; 7, 7+16, or 7+64 bits in length,</span><br><span class="line">                        ; respectively</span><br><span class="line"></span><br><span class="line">frame-payload-length-16 = %x0000-FFFF ; 16 bits in length</span><br><span class="line"></span><br><span class="line">frame-payload-length-63 = %x0000000000000000-7FFFFFFFFFFFFFFF</span><br><span class="line">                        ; 64 bits in length</span><br><span class="line"></span><br><span class="line">frame-masking-key       = 4( %x00-FF )</span><br><span class="line">                          ; present only if frame-masked is 1</span><br><span class="line">                          ; 32 bits in length</span><br><span class="line"></span><br><span class="line">frame-payload-data      = (frame-masked-extension-data</span><br><span class="line">                           frame-masked-application-data)</span><br><span class="line">                        ; when frame-masked is 1</span><br><span class="line">                          / (frame-unmasked-extension-data</span><br><span class="line">                            frame-unmasked-application-data)</span><br><span class="line">                        ; when frame-masked is 0</span><br><span class="line"></span><br><span class="line">frame-masked-extension-data     = *( %x00-FF )</span><br><span class="line">                        ; reserved for future extensibility</span><br><span class="line">                        ; n*8 bits in length, where n &gt;= 0</span><br><span class="line"></span><br><span class="line">frame-masked-application-data   = *( %x00-FF )</span><br><span class="line">                        ; n*8 bits in length, where n &gt;= 0</span><br><span class="line"></span><br><span class="line">frame-unmasked-extension-data   = *( %x00-FF )</span><br><span class="line">                        ; reserved for future extensibility</span><br><span class="line">                        ; n*8 bits in length, where n &gt;= 0</span><br><span class="line"></span><br><span class="line">frame-unmasked-application-data = *( %x00-FF )</span><br><span class="line">                        ; n*8 bits in length, where n &gt;= 0</span><br></pre></td></tr></table></figure>
+<h3 id="客户端到服务器屏蔽"><a href="#客户端到服务器屏蔽" class="headerlink" title="客户端到服务器屏蔽"></a>客户端到服务器屏蔽</h3><p>屏蔽帧必须将字段帧屏蔽设置为1，如第5.2节中所定义。</p>
+<p>掩码密钥完全包含在帧内，如第5.2节中所定义为frame-masking-key。 它用于屏蔽与frame-payload-data相同的部分中定义的“Payload数据”，其中包括“Extension data”和“Application data”。</p>
+<p>掩码密钥是客户端随机选择的32位值。在准备屏蔽帧时，客户端必须从允许的32位值中选择一个新的屏蔽密钥。掩蔽密钥需要不可预测; 因此，掩蔽密钥必须来自强大的熵源，使服务器/代理很容易预测后续帧的屏蔽密钥。屏蔽密钥的不可预测性对于防止恶意应用程序的作者选择出现在线路上的字节至关重要。RFC 4086 [ RFC4086 ]讨论了为安全敏感应用程序提供合适的熵源的原因。</p>
+<p>屏蔽不会影响“有效载荷数据”的长度。要将屏蔽数据转换为未屏蔽数据，反之亦然，应用以下算法。无论翻译的方向如何，都应用相同的算法，例如，应用相同的步骤屏蔽数据以取消屏蔽数据。</p>
+<p>变换数据的octet i（“transformed-octet-i”）是原始数据（“original-octet-i”）的八位位组的XOR，其中八位位组的索引为模4的掩码密钥（“masking-key” -octet -j“）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">j                   = i MOD 4</span><br><span class="line">transformed-octet-i = original-octet-i XOR masking-key-octet-j</span><br></pre></td></tr></table></figure>
+<p>有效载荷长度，在帧中指示为帧有效载荷长度，不包括掩码密钥的长度。它是“有效载荷数据” 的长度，例如，掩蔽key之后的字节数。</p>
+<h3 id="碎片"><a href="#碎片" class="headerlink" title="碎片"></a>碎片</h3><p>碎片化的主要目的是允许在启动消息时发送大小未知的消息，而不必缓冲该消息。如果消息不能被分段，则端点必须缓冲整个消息，以便在发送第一个字节之前计算其长度。通过分段，服务器或中介可以选择合理大小的缓冲区，并且当缓冲区已满时，将片段写入网络。</p>
+<p>用于分段的二次用例是用于多路复用，其中不希望一个逻辑信道上的大消息独占输出信道，因此多路复用需要是免费的</p>
+<p>将消息拆分为更小的片段以更好地共享输出通道。（请注意，本文档中未描述多路复用扩展。）除非扩展另有规定，否则帧没有语义含义。如果客户端和服务器没有协商扩展或者如果协商了某些扩展，则中间人可以合并和/或拆分帧，但是中间人理解协商的所有扩展并且知道如何在存在的情况下合并和/或拆分帧。这些扩展。其中一个含义是在没有扩展的情况下，发送者和接收者不得依赖于特定帧边界的存在。</p>
+<p>以下规则适用于分段：</p>
+<ul>
+<li>未分段的消息由设置了FIN 位的单个帧（第5.2节）和0以外的操作码组成.o分段消息由FIN</li>
+<li>帧 清除的单个帧和其他操作码组成在FIN位清零且操作码设置为0的情况下，接着是零或更多帧，并且由设置了FIN位且操作码为0 的单个帧终止。碎片消息在概念上等同于单个较大的消息消息，其有效载荷等于片段有效载荷的级联顺序; 但是，在存在扩展的情况下，这可能不适用，因为扩展定义了对“扩展数据” 的解释。例如，“扩展数据”可以仅存在于第一片段的开头并且应用于后续片段，或者可以存在仅应用于该特定片段的每个片段中存在的“扩展数据” 。在没有“扩展数据” 的情况下，以下示例演示了碎片的工作原理。<br>示例：对于作为三个片段发送的文本消息，第一个片段的操作码为0x1，FIN位清零第二个片段的操作码为0x0，FIN位清零，第三个片段的操作码为0x0，FIN位这是设定的。</li>
+<li>控制帧（参见第5.5节）可以在碎片消息的中间注入。控制框架本身不得碎片化。</li>
+<li>消息片段必须按发件人发送的顺序发送给收件人。</li>
+<li>一条消息的片段绝不能在另一条消息的片段之间交错，除非已经协商了可以解释交织的扩展。</li>
+<li>端点必须能够在分段消息的中间处理控制帧。</li>
+<li>发件人可以为非控制消息创建任何大小的片段。</li>
+<li>客户端和服务器必须支持接收分段和未分段的消息。</li>
+<li>由于无法对控制帧进行分段，因此中间人不得尝试更改控制帧的碎片。</li>
+<li>如果使用任何保留位值并且中间人不知道这些值的含义，则中介不得更改消息的碎片。</li>
+<li>中间人不得在已经协商扩展且中间人不知道协商扩展的语义的连接的上下文中更改任何消息的碎片。类似地，没有看到导致WebSocket连接的WebSocket握手（并且未通知其内容）的中间人不得更改此类连接的任何消息的碎片。</li>
+<li>作为这些规则的结果，消息的所有片段都是相同的类型，由第一个片段的操作码设置。由于控制帧不能被分段，因此消息中所有片段的类型必须是文本，二进制或其中一个保留的操作码。</li>
+</ul>
+<p>注意：如果无法插入控制帧，例如，如果在大消息后面，则ping 的延迟会非常长。因此，需要在分段消息的中间处理控制帧。</p>
+<p>实现注意：在没有任何扩展的情况下，接收器不必缓冲整个帧以便处理它。对于例如，如果使用流API，则可以将帧的一部分传递给应用程序。但请注意，此假设可能不适用于所有未来的WebSocket扩展。</p>
+<h3 id="控制框架"><a href="#控制框架" class="headerlink" title="控制框架"></a>控制框架</h3><p>控制帧由操作码识别，其中操作码的最高有效位是1.当前定义的控制帧操作码包括0x8（关闭），0x9（Ping）和0xA（Pong）。操作码0xB-0xF 保留用于尚未定义的其他控制帧。<br>控制帧用于传递有关WebSocket的状态。控制帧可以插入到碎片消息的中间。<br>所有控制帧必须具有125字节或更少的有效载荷长度，并且不得碎片化。</p>
+<h4 id="关"><a href="#关" class="headerlink" title="关"></a>关</h4><p>Close帧包含0x8的操作码。</p>
+<p>关闭框架可以包含一个主体（框架的“应用程序数据”部分），它指示关闭的原因，例如端点关闭，接收到框架太大的端点，或者接收到框架的端点不符合端点期望的格式。如果有一个主体，则主体的前两个字节必须是一个2字节无符号整数（按网络字节顺序），表示第7.4节中定义的值/代码/的状态代码。在2字节整数之后，主体可以包含带有值/ reason /的UTF-8编码数据，其解释不是由这个规范。此数据不一定是人类可读的，但可用于调试或传递与打开连接的脚本相关的信息。由于数据不保证是人类可读的，客户端不得向最终用户显示。必须根据第5.3节屏蔽从客户端发送到服务器的关闭帧。发送关闭帧后，应用程序不得再发送任何数据帧。如果端点收到关闭帧并且之前没有发送关闭帧，则端点必须发送关闭帧作为响应。（当响应中发送关闭帧时，端点通常会回显它收到的状态代码。）它应该尽快这样做。一个端点可以延迟发送一个关闭帧，直到它的当前的消息发送（例如，如果大多数一个分段消息的被已经发送的，端点可以发送之前的剩余片段发送关闭帧）。但是，无法保证已发送关闭帧的端点将继续处理数据。</p>
+<p>发送和接收Close消息后，端点认为WebSocket连接已关闭，必须关闭底层TCP连接。服务器必须立即关闭底层TCP连接; 客户端应该等待服务器关闭连接，但可以在发送和接收关闭消息后随时关闭连接，例如，如果它在合理的时间段内没有从服务器收到TCP关闭。如果客户端和服务器同时发送关闭消息，则两个端点都将发送和接收关闭消息考虑关闭WebSocket连接并关闭底层TCP连接。</p>
+<h4 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h4><p>Ping帧包含0x9的操作码。</p>
+<p>Ping帧可以包括“应用程序数据”。</p>
+<p>收到Ping帧后，端点必须发送Pong帧作为响应，除非它已经收到一个关闭帧。它应该尽快响应Pong框架。Pong框架在第5.5.3节中讨论。</p>
+<p>端点可以在建立连接之后和连接关闭之前的任何时间发送Ping帧。</p>
+<p>注意：Ping帧可以用作keepalive，也可以用作验证远程端点是否仍然响应的方法。</p>
+<h4 id="pong"><a href="#pong" class="headerlink" title="pong"></a>pong</h4><p>Pong帧包含0xA的操作码。第5.5.2节详细说明了适用于Ping和Pong帧的要求。响应Ping帧发送的Pong帧必须具有与要回复的Ping帧的消息体中相同的“应用程序数据” 。如果端点接收到Ping帧并且尚未发送Pong帧以响应先前的Ping帧，则端点可以选择仅针对最近处理的Ping帧发送Pong帧。</p>
+<p>可以不请自来地发送Pong帧。这可以作为单向心跳。预计不会对未经请求的Pong帧做出响应。</p>
+<h3 id="数据框架-1"><a href="#数据框架-1" class="headerlink" title="数据框架"></a>数据框架</h3><p>数据帧（例如，非控制帧）由操作码识别，其中操作码的最高有效位为0.当前定义的数据帧的操作码包括0x1（文本），0x2（二进制）。操作码0x3-0x7保留用于尚未定义的其他非控制帧。</p>
+<p>数据帧携带应用层和/或扩展层数据。该操作码确定数据的解释：</p>
+<p>Text “有效载荷数据”是编码为UTF-8文本数据。注意，特定文本框架可能包括部分UTF-8序列; 但是，整个消息必须包含有效的UTF-8。重新组装的消息中的无效UTF-8按照中所述进行处理第8.1节。</p>
+<p>二进制 “有效载荷数据”是任意二进制数据，其解释完全取决于应用层。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>单帧未屏蔽文本消息</li>
+</ul>
+<ul>
+<li>0x81 0x05 0x48 0x65 0x6c 0x6c 0x6f（包含“Hello”）</li>
+</ul>
+<ul>
+<li>单帧屏蔽文本消息</li>
+</ul>
+<ul>
+<li>0x81 0x85 0x37 0xfa 0x21 0x3d 0x7f 0x9f 0x4d 0x51 0x58（包含“Hello”）</li>
+</ul>
+<ul>
+<li>碎片未屏蔽的文本消息</li>
+</ul>
+<ul>
+<li>0x01 0x03 0x48 0x65 0x6c（包含“Hel”）</li>
+<li>0x80 0x02 0x6c 0x6f（包含“lo”)</li>
+</ul>
+<ul>
+<li>屏蔽的Ping请求和屏蔽的Ping响应</li>
+</ul>
+<ul>
+<li>0x89 0x05 0x48 0x65 0x6c 0x6c 0x6f（包含一个“Hello”的主体，但是主体的内容是任意的）</li>
+<li>0x8a 0x85 0x37 0xfa 0x21 0x3d 0x7f 0x9f 0x4d 0x51 0x58（包含一个“Hello”的主体，匹配ping的主体）</li>
+</ul>
+<ul>
+<li>单个未屏蔽帧中的256字节二进制消息</li>
+</ul>
+<ul>
+<li>0x82 0x7E 0x0100 [二进制数据256字节]</li>
+</ul>
+<ul>
+<li>单个未屏蔽帧中的64KiB二进制消息</li>
+</ul>
+<ul>
+<li>0x82 0x7F 0x0000000000010000 [65536字节的二进制数据]</li>
+</ul>
+<h3 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h3><p>该协议旨在允许扩展，这将增加基本协议的功能。连接的端点必须在打开握手期间协商使用任何扩展。该规范提供了操作码0x3到0x7和0xB到0xF，“扩展数据”字段，以及帧头的帧-rsv1，frame-rsv2和frame-rsv3位，供扩展使用。第9.1节将进一步详细讨论扩展协商。以下是扩展的一些预期用途。此列表既不完整也不规范。</p>
+<ul>
+<li>“扩展数据”可以放在“有效载荷数据”之前“申请数据”。</li>
+<li>可以为每帧需求分配保留位。</li>
+<li>可以定义保留的操作码值。</li>
+<li>如果需要更多的操作码值，可以将保留位分配给操作码字段。</li>
+<li>可以定义保留位或“扩展”操作码，其从“有效载荷数据” 中分配附加位以定义更大的操作码或更多的每帧位。</li>
+</ul>
+<h2 id="发送和接收数据"><a href="#发送和接收数据" class="headerlink" title="发送和接收数据"></a>发送和接收数据</h2><h3 id="发送数据"><a href="#发送数据" class="headerlink" title="发送数据"></a>发送数据</h3><p>要通过WebSocket连接发送包含/ data /的WebSocket Message_ 端点必须执行以下步骤。</p>
+<ul>
+<li>1、端点必须确保WebSocket连接处于OPEN状态（参见第 4.1和 4.2.2节）。如果WebSocket连接的状态在任何时候发生变化，端点必须中止以下内容脚步。</li>
+<li>2、端点必须将/ data /封装 在第5.2节中定义的WebSocket框架中。如果要发送的数据很大，或者如果数据在端点希望开始发送数据时完全不可用，则端点可以交替地将数据封装在5.4节中定义的一系列帧中。</li>
+<li>3、操作码包含数据的第一帧的（帧操作码）必须被设置为从适当的值5.2节数据要由接收方为文本或二进制解释数据。</li>
+<li>4、包含数据的最后一帧的FIN位（帧 -  fin）必须按照5.2节中的定义设置为1 。</li>
+<li>5、如果客户端正在发送数据，则必须按照第5.3节中的定义屏蔽帧。</li>
+<li>6、如果有任何扩展（第9节）已经为WebSocket连接进行了协商，根据这些扩展的定义，可能会有其他注意事项。</li>
+<li>7、已经形成的帧必须通过底层网络连接传输。</li>
+</ul>
+<h3 id="接收数据"><a href="#接收数据" class="headerlink" title="接收数据"></a>接收数据</h3><p>要接收WebSocket数据，端点将侦听底层网络连接。传入的数据必须解析为第5.2节中定义的WebSocket帧。如果收到控制帧（第5.5节），则必须按照第5.5节的规定处理帧。当接收数据帧（第5.6节），端点必须注意如由操作码（帧操作码）从所定义的数据的/类型/ 5.2节。来自该帧的“应用数据”被定义为消息的/ data /。如果帧包含未分段的消息（第5.4节）），据说<em>A WebSocket消息已被接收</em> 类型/类型/和数据/数据/。如果帧是分段消息的一部分，则后续数据帧的“应用程序数据” 被连接以形成/ data /。当FIN位（帧-fin）指示接收到最后一个片段时，据说<em>A WebSocket消息已被接收</em>具有数据/数据/（由片段的“应用数据”的串联组成）和类型/类型/（从分段消息的第一帧中注明）。后续数据帧必须被解释为属于新的WebSocket消息。</p>
+<p>扩展（第9节）可以改变数据读取方式的语义，特别是包括消息边界的内容。扩展，除了在有效载荷中的“应用程序数据”之前添加“扩展数据”之外，还可以修改“应用程序数据”（例如通过压缩它）。</p>
+<p>服务器必须删除从客户端接收的数据帧的屏蔽，如第5.3节所述。</p>
+<h2 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><h4 id="关闭WebSocket连接"><a href="#关闭WebSocket连接" class="headerlink" title="关闭WebSocket连接"></a>关闭WebSocket连接</h4><p>要<em>Close WebSocket Connection</em>，端点将关闭底层TCP连接。端点应该使用干净地关闭TCP连接的方法，以及TLS会话（如果适用），丢弃可能已经收到的任何尾随字节。端点可以在必要时通过任何可用方式关闭连接，例如在受到攻击时。</p>
+<p>在大多数正常情况下，底层TCP连接应首先由服务器关闭，以便它保持TIME_WAIT状态而不是客户端（因为这会阻止它重新打开连接2个最大段寿命（2MSL），虽然没有相应的作为TIME_WAIT连接的服务器影响会立即在具有更高seq号的新SYN上重新打开。在异常情况下（例如在一段合理的时间后没有从服务器收到TCP关闭），客户端可以启动TCP关闭。因此，当指示服务器<em>Close WebSocket Connection</em>时，它应该立即启动TCP关闭，并且当指示客户端执行相同操作时，它应该等待来自服务器的TCP关闭。</p>
+<p>作为如何使用Berkeley 套接字在C中获取干净闭包的示例，可以在套接字上使用SHUT_WR调用shutdown（），调用recv（）直到获得返回值0指示对等体还执行了有序关闭，最后调用socket 上的close（）</p>
+<h4 id="启动WebSocket-Closing-Handshake"><a href="#启动WebSocket-Closing-Handshake" class="headerlink" title="启动WebSocket Closing Handshake"></a>启动WebSocket Closing Handshake</h4><p>到<em>start WebSocket的关闭Handshake</em>，状态码（第7.4节）/码/和可选的关闭原因（章节7.1.6）/原因/，端点必须发送一个关闭控制帧，如所描述的在第5.5.1节，其状态代码设置为/ code /，其关闭原因设置为/ reason /。一旦端点同时发送和接收了一个关闭控制帧，该端点应该按照第7.1.1节的定义关闭WebSocket Connection_ 。</p>
+<h4 id="WebSocket-Closing-Handshake已启动"><a href="#WebSocket-Closing-Handshake已启动" class="headerlink" title="WebSocket Closing Handshake已启动"></a>WebSocket Closing Handshake已启动</h4><p>在发送或接收关闭控制帧时，可以说<em>SlogSocket Closing Handshake是Started</em>并且WebSocket连接处于CLOSING状态。</p>
+<h4 id="WebSocket连接已关闭"><a href="#WebSocket连接已关闭" class="headerlink" title="WebSocket连接已关闭"></a>WebSocket连接已关闭</h4><p>当底层TCP连接关闭时，可以说<em>WebSocket连接是Closed</em>，并且WebSocket连接处于CLOSED状态。如果在WebSocket关闭握手完成后关闭了TCP连接，则说WebSocket连接已关闭<em>cleanly</em>。</p>
+<p>如果无法建立WebSocket连接，也可以说<em>The WebSocket连接是Closed</em>，但不是<em>cleanly</em>。</p>
+<h4 id="WebSocket连接关闭代码"><a href="#WebSocket连接关闭代码" class="headerlink" title="WebSocket连接关闭代码"></a>WebSocket连接关闭代码</h4><p>如第5.5.1和7.4节中所定义，Close控制框架可能包含一个状态代码，指示关闭的原因。关闭WebSocket连接可以由任一端点启动，可能同时启动。_ WebSocket连接关闭代码<em>被定义为实现此协议的应用程序收到的第一个关闭控制帧中包含的状态代码（第7.4节）。如果此关闭控制框架不包含状态代码，</em> WebSocket连接关闭代码_ 被认为是1005.如果<em>SlogSocket连接已关闭</em> 并且没有收到关闭控制框架端点（例如，如果底层传输连接丢失可能会发生），_ WebSocket连接关闭代码_被认为是1006. </p>
+<p>注意：两个端点可能不同意<em>The WebSocket 连接关闭代码</em>的值。例如，如果远程端点发送了一个 Close帧但本地应用程序尚未从其套接字的接收缓冲区中读取包含Close帧的数据，并且本地应用程序独立决定关闭连接并发送Close帧，则两个端点将发送并收到关闭框架，不会再发送关闭框架。每个端点都会将另一端发送的状态代码视为<em>TheWebSocketConnection Close Code</em>。因此，在两个端点<em>独立地并且几乎同时启动WebSocketClosing Handshake</em>的情况下，两个端点可能不同意<em>SlogSocketConnectionClose Code</em>的值。</p>
+<h4 id="WebSocket连接关闭原因"><a href="#WebSocket连接关闭原因" class="headerlink" title="WebSocket连接关闭原因"></a>WebSocket连接关闭原因</h4><p>如第5.5.1和7.4节所定义，Close控制框架可能包含一个状态代码，指示关闭的原因，然后是UTF-8编码的数据，所述数据的解释留给端点而不是由此协议定义。关闭WebSocket连接可以由任一端点启动，可能同时启动。<em>WebSocket连接关闭Reason</em>被定义为执行此协议的应用程序收到的第一个关闭控制帧中包含的状态码（第7.4节）之后的UTF-8编码数据。如果没有这样的数据关闭控制框，_ WebSocket连接关闭Reason_是空字符串。</p>
+<p>注意：遵循第7.1.5节中所述的相同逻辑，两个端点可能不同意<em>The WebSocket连接关闭Reason</em>。</p>
+<h4 id="WebSocket连接失败"><a href="#WebSocket连接失败" class="headerlink" title="WebSocket连接失败"></a>WebSocket连接失败</h4><p>某些算法和规范要求端点<em>Fail WebSocket Connection</em>。为此，客户端必须<em>Close WebSocket Connection</em>，并以适当的方式向用户报告问题（这对开发人员特别有用）。同样，要做到这一点，服务器必须<em>Close WebSocket Connection</em>，并且应该记录问题。</p>
+<p>如果WebSocket连接在需要端点<em>Fail WebSocket Connection</em> 的点之前建立_ ，端点应该在继续<em>Close WebSocket Connection</em>之前发送一个带有适当状态代码的Close帧（第7.4节）。如果端点认为另一方不太可能能够接收和处理关闭帧，则端点可以省略发送关闭帧，这是由于导致WebSocket连接首先失败的错误的性质。在被指示<em>Fail WebSocket Connection</em>后，端点不得继续尝试从远程端点处理数据（包括响应的关闭帧）。</p>
+<p>除非上面指出或由应用程序层指定（例如，使用WebSocket API的脚本），否则客户端不应该关闭连接。</p>
+<h3 id="异常关闭"><a href="#异常关闭" class="headerlink" title="异常关闭"></a>异常关闭</h3><h4 id="客户启动的关闭"><a href="#客户启动的关闭" class="headerlink" title="客户启动的关闭"></a>客户启动的关闭</h4><p>某些算法，特别是在打开握手期间，需要客户端<em>Fail WebSocket Connection</em>。为此，客户端必须按照第7.1.7节中的定义<em>Fail WebSocket Connection</em> 。如果在任何时候底层传输层连接意外丢失，客户端必须<em>Fail WebSocket Connection</em>。除非上面指出或由应用程序层指定（例如，使用WebSocket API的脚本），否则客户端不应该关闭连接。</p>
+<h4 id="服务器启动的关闭"><a href="#服务器启动的关闭" class="headerlink" title="服务器启动的关闭"></a>服务器启动的关闭</h4><p>某些算法要求或建议服务器<em>Abort打开握手期间的WebSocket Connection</em>。 要这样做，服务器必须只是<em>Close WebSocket Connection</em>（第7.1.1节）。</p>
+<h4 id="从异常关闭中恢复"><a href="#从异常关闭中恢复" class="headerlink" title="从异常关闭中恢复"></a>从异常关闭中恢复</h4><p>异常关闭可能由多种原因引起。这种闭合可能是瞬态错误的结果，在这种情况下，重新连接可能导致良好的连接和恢复正常操作。此类闭包也可能是非瞬态问题的结果，在这种情况下，如果每个已部署的客户端遇到异常关闭并立即并持续尝试重新连接，则服务器可能会遇到大量的拒绝服务攻击。客户试图重新连接。这种情况的最终结果可能是服务无法及时恢复或恢复变得更加困难。</p>
+<p>为了防止这种情况，客户端应该在异常关闭后尝试重新连接时使用某种形式的退避，如本节所述。</p>
+<p>第一次重新连接尝试应该延迟一段随机时间。选择该随机延迟的参数留给客户决定; 在0到5秒之间随机选择的值是合理的初始延迟，尽管客户端可以根据实现经验和特定应用选择不同的间隔来从中选择延迟长度。如果第一次重新连接尝试失败，后续重新连接尝试应该延迟越来越长的时间，使用截断二进制指数退避等方法。</p>
+<h3 id="正常关闭连接"><a href="#正常关闭连接" class="headerlink" title="正常关闭连接"></a>正常关闭连接</h3><p>服务器可以在需要时关闭WebSocket连接。客户端不应该任意关闭WebSocket连接。在任何一种情况下，端点都会通过遵循<em>Start WebSocket Closing Handshake</em>（第7.1.2节）的过程来启动闭包</p>
+<h3 id="状态代码"><a href="#状态代码" class="headerlink" title="状态代码"></a>状态代码</h3><p>当关闭已建立的连接时（例如，在打开握手完成后发送关闭帧时），端点可以指示关闭的原因。由于这个原因，端点对此原因的解释以及端点应采取的操作在本规范中未定义。该规范定义了一组预定义的状态代码，并指定了扩展，框架和最终应用程序可以使用的范围。状态码和任何相关联的文本消息是可选的一个关闭框架的组件。</p>
+<h4 id="定义的状态代码"><a href="#定义的状态代码" class="headerlink" title="定义的状态代码"></a>定义的状态代码</h4><p>发送 关闭帧时，端点可以使用以下预定义的状态代码。<br>1000 1000表示正常关闭，这意味着已建立连接的目的。<br>1001 1001表示端点“正在离开”，例如服务器关闭或浏览器已离开页面。<br>1002 1002表示由于协议错误，端点正在终止连接。<br>1003 1003指示端点正在终止连接，因为它已经接收到它不能接受的数据类型（例如，只了解文本数据的端点如果收到二进制消息，则可以发送它。<br>1004 保留。具体含义可能在将来定义。<br>1005 1005是保留值，不得在端点的关闭控制帧中设置为状态码。它被指定用于期望状态代码表明实际上没有状态代码的应用程序。<br>1006 1006是保留值，并且不能被端点设置为关闭控制帧中的状态代码。它被指定用于期望状态代码指示的应用程序连接异常关闭，例如，没有发送或接收关闭控制帧。<br>1007 1007指示端点正在终止连接，因为它已经在消息内接收到与消息类型不一致的数据（例如，文本消息中的非UTF-8 [ RFC3629 ] 数据）。<br>1008 1008表示端点正在终止连接，因为它已收到违反其策略的消息。这是一个通用的状态代码，当没有其他更合适的状态代码（例如，1003或1009）或者如果有需要隐藏有关策略的特定详细信息。<br>1009 1009表示端点正在终止连接，因为它收到的消息太大而无法处理。<br>1010 1010指示端点（客户端）正在终止连接，因为它期望服务器协商一个或多个扩展，但服务器未在WebSocket握手的响应消息中返回.它们的扩展名单需要的WebSocket协议应该出现在关闭框架的/ reason /部分中。请注意，服务器不使用此状态代码，因为它可能会使WebSocket握手失败。<br>1011 1011表示服务器正在终止连接，因为它遇到意外情况，导致服务器无法完成请求。<br>1015 1015是保留值，并且不能被端点设置为关闭控制帧中的状态代码。它被指定用于期望状态代码指示的应用程序由于未能执行TLS握手（例如，无法验证服务器证书），连接已关闭。</p>
+<h4 id="保留的状态代码范围"><a href="#保留的状态代码范围" class="headerlink" title="保留的状态代码范围"></a>保留的状态代码范围</h4><p>0-999 不使用0-999范围内的状态代码。<br>1000-2999 1000-2999 范围内的状态代码保留用于本协议的定义，其未来版本以及永久性且易于获得的公共规范中指定的扩展。<br>3000-3999 3000-3999范围内的状态代码保留供使用库，框架和应用程序。 这些状态代码是直接在IANA注册。 这些代码的解释该协议未定义。<br>4000-4999 范围内的状态代码保留供私人使用因此无法注册。这些代码可以由WebSocket应用程序之间的先前协议使用。该协议未对这些代码的解释进行定义。</p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h3 id="处理UTF-8编码数据中的错误"><a href="#处理UTF-8编码数据中的错误" class="headerlink" title="处理UTF-8编码数据中的错误"></a>处理UTF-8编码数据中的错误</h3><p>当端点将字节流解释为UTF-8但发现字节流实际上不是有效的UTF-8流时，该端点必须<em>Fail WebSocket Connection</em>。此规则适用于打开握手期间和后续数据交换期间。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>WebSocket客户端可以请求扩展此规范，WebSocket服务器可以接受客户端请求的部分或全部扩展。服务器不得响应客户端未请求的任何扩展。如果扩展参数包含在客户端和服务器之间的协商中，则必须根据参数适用的扩展的规范来选择那些参数。</p>
+<h3 id="谈判扩展"><a href="#谈判扩展" class="headerlink" title="谈判扩展"></a>谈判扩展</h3><p>客户端通过包含| Sec-WebSocket-Extensions |来请求扩展 头字段，遵循HTTP头字段的常规规则（参见[RFC2616]，第4.2节），头字段的值由以下ABNF [ RFC2616 ] 定义。请注意，本节使用[ RFC2616 ]中的ABNF语法/规则，包括“隐含的* LWS规则”。如果客户端或服务器在协商过程中收到的值不符合下面的ABNF ，则此类格式错误的数据的接收者必须立即<em>Fail WebSocket Connection</em>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions =扩展名列表</span><br><span class="line">extension-list = 1＃extension </span><br><span class="line">extension = extension-token *（“;”extension-param）</span><br><span class="line">extension-token = registered-token </span><br><span class="line">registered-token = token </span><br><span class="line">extension-param = token [“=”（token | quoted-string）] </span><br><span class="line">    ;当使用quoted-string语法变体时，值</span><br><span class="line">    ;在引用字符串unescaping之后必须符合</span><br><span class="line">    ;&apos; token&apos;ABNF 。</span><br></pre></td></tr></table></figure>
+<p>请注意，与其他HTTP标头字段一样，此标头字段可以跨多行拆分或组合。以下是等价的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions：foo</span><br><span class="line">Sec-WebSocket-Extensions：bar; baz = 2</span><br></pre></td></tr></table></figure></p>
+<p>完全等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions: foo, bar; baz=2</span><br></pre></td></tr></table></figure>
+<p>任何扩展令牌必须是注册令牌（参见 11.4节）。必须为该扩展定义任何给定扩展名提供的参数。请注意，客户端仅提供使用任何广告扩展名，除非是，否则不得使用它们</p>
+<p>服务器表示它希望使用扩展名。</p>
+<p>请注意，扩展的顺序很重要。可以在定义扩展的文档中定义多个扩展之间的任何交互 。在没有这样的定义的情况下，解释是客户端在其请求中列出的头字段表示其希望使用的头字段的首选项，其中列出的第一选项是最优选的。扩展服务器响应中列出代表扩展实际使用的连接。如果扩展修改数据和/或框架，则应假定数据的操作顺序为与打开握手中服务器响应中列出扩展名的顺序相同。</p>
+<p>例如，如果有两个扩展名“foo”和“bar”以及标题字段| Sec-WebSocket-Extensions | 由服务器发送的值为“foo，bar”，然后对数据的操作将作为bar（foo（数据）），对数据本身的那些更改（如压缩）或对可能的框架的更改“堆”。</p>
+<p>可接受的扩展头字段的非规范性示例（请注意，为了便于阅读，折叠长行）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sec-WebSocket-Extensions: deflate-stream</span><br><span class="line">Sec-WebSocket-Extensions: mux; max-channels=4; flow-control,</span><br><span class="line"> deflate-stream</span><br><span class="line">Sec-WebSocket-Extensions: private-extension</span><br></pre></td></tr></table></figure>
+<p>服务器通过包含| Sec-WebSocket-Extensions |来接受一个或多个扩展。标题字段，包含客户端请求的一个或多个扩展名。任何扩展参数，以及服务器对客户端请求的参数集的有效响应的构成，将由每个此类扩展定义。</p>
+<h3 id="已知扩展"><a href="#已知扩展" class="headerlink" title="已知扩展"></a>已知扩展</h3><p>扩展为实现选择加入其他协议功能提供了一种机制。本文档没有定义任何扩展，但实现可以使用单独定义的扩展。</p>
+<h2 id="安全考虑因素"><a href="#安全考虑因素" class="headerlink" title="安全考虑因素"></a>安全考虑因素</h2><p>本节介绍适用于WebSocket协议的一些安全注意事项。具体的安全注意事项在本节的小节中描述。</p>
+<h3 id="非浏览器客户端"><a href="#非浏览器客户端" class="headerlink" title="非浏览器客户端"></a>非浏览器客户端</h3><p>WebSocket协议可防止在受信任的应用程序（如Web浏览器）中运行的恶意JavaScript ，例如，通过检查| Origin | 标题字段（见下文）。更多详细信息，请参见第1.6节。对于能力更强的客户而言，这种假设并不适用。</p>
+<p>虽然此协议旨在由网页中的脚本使用，但它也可以由主机直接使用。这样的主机代表自己行事，因此可以发送假的| Origin | 标题字段，误导服务器。因此，服务器应该小心假设他们直接与已知来源的脚本对话并且必须考虑可能以意想不到的方式访问它们。在特定的，服务器不应该相信任何输入有效。</p>
+<p>示例：如果服务器使用输入作为SQL查询的一部分，则所有输入文本在传递到SQL服务器之前都应进行转义，以免服务器易受SQL注入的影响。</p>
+<h3 id="起源考虑因素"><a href="#起源考虑因素" class="headerlink" title="起源考虑因素"></a>起源考虑因素</h3><p>不打算从任何网页处理输入但仅针对某些网站的服务器应该验证| Origin | 领域是他们期望的起源。如果指示的来源对服务器是不可接受的，那么它应该响应WebSocket握手，其中包含HTTP 403 Forbidden状态代码的回复。</p>
+<p>当|Origin|不可信方通常是在受信任客户端的上下文中执行的JavaScript应用程序的作者时，头字段保护免受攻击案例。客户端本身可以通过| Origin |的机制联系服务器</p>
+<p>标头字段，确定是否将这些通信权限扩展到JavaScript应用程序。目的不是阻止非浏览器建立连接，而是确保受潜在恶意JavaScript控制的可信浏览器不能伪造WebSocket握手。</p>
+<h3 id="对基础设施的攻击（掩蔽）"><a href="#对基础设施的攻击（掩蔽）" class="headerlink" title="对基础设施的攻击（掩蔽）"></a>对基础设施的攻击（掩蔽）</h3><p>除了端点是通过WebSockets进行攻击的目标之外，Web基础结构的其他部分（例如代理）可能是攻击的主体。</p>
+<p>在开发此协议时，进行了一项实验，以演示对代理的一类攻击，这些攻击导致在野外部署的缓存代理中毒[ TALKING ]。攻击的一般形式是在“攻击者”控制下建立与服务器的连接，在HTTP连接上执行类似于WebSocket协议建立连接所做的UPGRADE ，然后通过该UPGRADEd连接发送数据这看起来像是对特定已知资源的GET请求（在攻击中可能类似于广泛部署的脚本，用于跟踪点击或广告服务网络上的资源）。在远程服务器会的东西，看起来像一个响应，以假GET请求响应，而且这种反应会被缓存由部署中介的非零百分比，因此中毒的缓存。此攻击的最终结果是，如果用户可能被说服访问攻击者控制的网站，则攻击者可能会破坏该用户和同一缓存后面的其他用户的缓存并在其他用户上运行恶意脚本起源，妥协网络安全模型。</p>
+<p>为了避免对已部署的中介进行此类攻击，将应用程序提供的数据添加到不符合HTTP的框架是不够的，因为不可能详尽地发现并测试每个不一致的中介都不会跳过这种非HTTP框架和对帧有效载荷的行为不正确。因此，采用的防御是屏蔽从客户端到服务器的所有数据，以便远程脚本（攻击者）无法控制发送的数据如何出现在线路上，因此无法构造可能被错误解释的消息。作为HTTP请求的中介。</p>
+<p>客户端必须使用无法由提供数据的最终应用程序预测的算法为每个帧选择新的屏蔽密钥。例如，每个掩蔽可以从加密强随机数生成器中提取。如果使用相同的密钥或存在可解密的模式以确定如何选择下一个密钥，则攻击者可以发送一条消息，当被屏蔽时，可能看起来像HTTP请求（通过获取攻击者希望在线路上看到的消息并使用下一个要使用的屏蔽密钥对其进行屏蔽，屏蔽密钥将在客户端应用时有效地取消屏蔽数据）。</p>
+<p>还有必要的是，一旦从客户端开始传输帧，该帧的有效载荷（应用程序提供的数据）就不能被应用程序修改。否则，攻击者可以发送一个长帧，其中初始数据是已知值（例如全零），计算掩码密钥是在收到数据的第一部分时使用，然后修改帧中尚未发送的数据，以便在屏蔽时显示为HTTP请求。（这与使用已知或可预测的屏蔽密钥在前一段中描述的问题基本相同。）如果要发送附加数据或以某种方式更改要发送的数据，则必须在新帧中发送新的或更改的数据并因此与新的屏蔽键。简而言之，一旦帧的传输开始，远程脚本（应用程序）就不能修改内容。</p>
+<p>受保护的威胁模型是客户端发送看似HTTP请求的数据。因此，需要屏蔽的通道是从客户端到服务器的数据。从服务器到客户端的数据可以看起来像响应，但要完成此请求，客户端还必须能够伪造请求。因此，不认为有必要在两个方向上屏蔽数据（从服务器到客户端的数据未被屏蔽）。</p>
+<p>尽管屏蔽提供了保护，但不兼容的HTTP代理仍然容易受到不应用屏蔽的客户端和服务器的此类中毒攻击。</p>
+<h3 id="特定于实施的限制"><a href="#特定于实施的限制" class="headerlink" title="特定于实施的限制"></a>特定于实施的限制</h3><p>在从多个帧重新组装后，对于帧大小或总消息大小具有实现和/或平台特定限制的实现必须保护自己不超过这些限制。（例如，恶意端点可以尝试通过发送单个大帧（例如，大小为2 ** 60）或通过发送长流小帧来耗尽其对等方的内存或发起拒绝服务攻击是一个碎片消息的一部分。）这样的实现应该对从多个帧重组后的帧大小和总消息大小施加限制。</p>
+<h3 id="WebSocket客户端身份验证"><a href="#WebSocket客户端身份验证" class="headerlink" title="WebSocket客户端身份验证"></a>WebSocket客户端身份验证</h3><p>此协议没有规定服务器在WebSocket握手期间可以对客户端进行身份验证的任何特定方式。WebSocket服务器可以使用通用HTTP服务器可用的任何客户端身份验证机制，例如cookie，HTTP身份验证或TLS身份验证。</p>
+<h3 id="连接机密性和完整性"><a href="#连接机密性和完整性" class="headerlink" title="连接机密性和完整性"></a>连接机密性和完整性</h3><p>通过TLS（wss URI）运行WebSocket协议提供连接机密性和完整性。WebSocket实现必须支持TLS，并且应该在与对等方进行通信时使用它。</p>
+<p>对于使用TLS的连接，TLS提供的好处量很大程度上取决于在TLS握手期间协商的算法的强度。例如，某些TLS密码机制不提供连接机密性。要实现合理的保护级别，客户端应仅使用强TLS算法。“Web 安全上下文：用户界面指南” [ W3C.REC-wsc-ui-20100812 ]讨论了强TLS的构成算法。[ RFC5246 ]在附录A.5 和附录D.3中提供了额外的指导。</p>
+<h3 id="处理无效数据"><a href="#处理无效数据" class="headerlink" title="处理无效数据"></a>处理无效数据</h3><p>传入数据必须始终由客户端和服务器验证。如果端点在任何时候面临无法理解的数据或违反端点确定输入安全性的某些标准，或者端点看到与其预期值不对应的打开握手（例如，客户端请求中的路径或来源不正确），端点可能会丢弃TCP连接。如果在成功的WebSocket握手之后收到无效数据，端点应该在继续<em>Close WebSocket Connection</em> 之前发送带有适当状态代码的Close 帧（第7.4节）。使用带有关闭框架适当的状态代码可以帮助诊断问题。如果在WebSocket握手期间发送了无效数据，则服务器应该返回适​​当的HTTP [ RFC2616 ]状态代码。使用错误的编码</p>
+<p>发送文本数据时会出现一类常见的安全问题使用错误的编码。此协议指定带有的消息文本数据类型（与二进制或其他类型相对）包含UTF-8编码数据。 虽然长度仍然显示和实现此协议的应用程序应使用长度确定帧实际结束的位置，以不正确的编码发送数据可能仍会破坏应用程序构建在顶层的假设该协议可能会导致任何误解数据丢失或潜在的安全漏洞。</p>
+<h3 id="通过WebSocket-Handshake使用SHA-1"><a href="#通过WebSocket-Handshake使用SHA-1" class="headerlink" title="通过WebSocket Handshake使用SHA-1"></a>通过WebSocket Handshake使用SHA-1</h3><p>本文档中描述的WebSocket握手不依赖于SHA-1的任何安全属性，例如抗冲突性或对第二次前映像攻击的抵抗（如[ RFC4270 ]中所述）。</p>
+<h2 id="IANA注意事项"><a href="#IANA注意事项" class="headerlink" title="IANA注意事项"></a>IANA注意事项</h2><h3 id="注册新的URI方案"><a href="#注册新的URI方案" class="headerlink" title="注册新的URI方案"></a>注册新的URI方案</h3><h4 id="注册“ws”计划"><a href="#注册“ws”计划" class="headerlink" title="注册“ws”计划"></a>注册“ws”计划</h4><p>| ws | URI标识WebSocket服务器和资源名称。</p>
+<p>URI方案名称<br>    ws</p>
+<p>状态<br>    永久</p>
+<p>URI方案语法<br>    使用来自URI规范[ RFC3986 ] 的ABNF [ RFC5234 ]语法和ABNF终端：<br>    “ws：”“//”authority path-abempty [“？” 查询] </p>
+<p><path-abempty>和<query> [ RFC3986 ]组件形成发送到服务器的资源名称，以识别所需的服务类型。其他组件具有[ RFC3986 ]中描述的含义。</query></path-abempty></p>
+<p>URI方案语义<br>    此方案的唯一操作是使用WebSocket协议打开连接。</p>
+<p>编码注意事项<br>    上面定义的语法排除的主机组件中的字符必须按照[ RFC3987 ]或其替换中的规定从Unicode转换为ASCII 。出于基于方案的规范化的目的，主机组件的国际化域名（IDN）形式及其对punycode的转换被认为是等效的（参见[RFC3987]的第5.3.3节）。<br>    语法排除的其他组件中的字符上面定义的必须首先从Unicode转换为ASCII将字符编码为UTF-8然后替换使用其中定义的百分比编码形式的相应字节URI [RFC3986]和国际化资源标识符（IRI）[RFC3987]规范。</p>
+<p>使用此URI方案名称的应用程序/协议<br>    WebSocket协议</p>
+<p>互操作性注意事项<br>    使用WebSocket需要使用HTTP版本1.1或更高版本。</p>
+<p>安全注意事项<br>    请参阅“安全注意事项”部分。</p>
+<p>联系<br>    HYBI WG <a href="mailto:&#x68;&#x79;&#x62;&#105;&#64;&#105;&#101;&#116;&#102;&#46;&#x6f;&#114;&#x67;" target="_blank" rel="noopener">&#x68;&#x79;&#x62;&#105;&#64;&#105;&#101;&#116;&#102;&#46;&#x6f;&#114;&#x67;</a> </p>
+<p>作者/变更控制器<br>    IETF <a href="mailto:&#105;&#101;&#115;&#103;&#x40;&#105;&#x65;&#116;&#102;&#x2e;&#111;&#x72;&#103;" target="_blank" rel="noopener">&#105;&#101;&#115;&#103;&#x40;&#105;&#x65;&#116;&#102;&#x2e;&#111;&#x72;&#103;</a> </p>
+<p>参考资料RFC 6455</p>
+<h4 id="注册“wss”计划"><a href="#注册“wss”计划" class="headerlink" title="注册“wss”计划"></a>注册“wss”计划</h4><p>| wss | URI标识WebSocket服务器和资源名称，并指示通过TLS 保护该连接上的流量（包括TLS的标准优势，如数据机密性和完整性以及端点身份验证）。</p>
+<p>URI方案名称<br>    wss </p>
+<p>状态<br>    永久</p>
+<p>URI方案语法<br>    使用ABNF [ RFC5234 ]语法和URI规范[ RFC3986 ]中的ABNF终端：<br>    “wss：”“//”权限路径 -  abempty [“？” 查询]</p>
+<p><path-abempty>和<query>组件构成发送的资源名称到服务器以识别所需的服务种类。其他组件具有[ RFC3986 ]中描述的含义。</query></path-abempty></p>
+<p>URI方案语义<br>    此方案的唯一操作是使用WebSocket协议打开连接，使用TLS加密。</p>
+<p>编码注意事项<br>    上面定义的语法排除的主机组件中的字符必须按照[ RFC3987 ]或其替换中的规定从Unicode转换为ASCII。出于基于方案的规范化的目的，主机组件的IDN形式及其对punycode的转换被认为是等效的（参见 [RFC3987]的第5.3.3 节）。</p>
+<pre><code>通过首先将字符编码为UTF-8然后使用URI [ RFC3986 ]和IRI中定义的百分比编码形式替换相应的字节，必须将上面定义的语法排除的其他组件中的字符从Unicode转换为ASCII。[ RFC3987 ]规范。
+</code></pre><p>使用此URI方案的应用程序/协议名称<br>    通过TLS进行WebSocket协议</p>
+<p>互操作性注意事项<br>    使用WebSocket需要使用HTTP版本1.1或更高版本。</p>
+<p>安全注意事项<br>    请参阅“安全注意事项”部分。</p>
+<p>联系<br>    HYBI WG <a href="mailto:&#x68;&#x79;&#98;&#105;&#64;&#x69;&#x65;&#116;&#102;&#x2e;&#x6f;&#x72;&#x67;" target="_blank" rel="noopener">&#x68;&#x79;&#98;&#105;&#64;&#x69;&#x65;&#116;&#102;&#x2e;&#x6f;&#x72;&#x67;</a></p>
+<p>作者/变更控制者<br>    IETF <a href="mailto:&#105;&#101;&#x73;&#x67;&#x40;&#x69;&#x65;&#116;&#x66;&#46;&#111;&#114;&#x67;" target="_blank" rel="noopener">&#105;&#101;&#x73;&#x67;&#x40;&#x69;&#x65;&#116;&#x66;&#46;&#111;&#114;&#x67;</a> 参考RFC 6455</p>
+<h3 id="注册“WebSocket”HTTP升级关键字"><a href="#注册“WebSocket”HTTP升级关键字" class="headerlink" title="注册“WebSocket”HTTP升级关键字"></a>注册“WebSocket”HTTP升级关键字</h3><p>本节定义了根据RFC 2817 [ RFC2817 ] 在HTTP升级令牌注册表中注册的关键字。</p>
+<p>令牌名称 WebSocket </p>
+<p>作者/变更控制器 IETF <a href="mailto:&#105;&#x65;&#115;&#103;&#x40;&#105;&#x65;&#116;&#x66;&#46;&#x6f;&#x72;&#x67;" target="_blank" rel="noopener">&#105;&#x65;&#115;&#103;&#x40;&#105;&#x65;&#116;&#x66;&#46;&#x6f;&#x72;&#x67;</a></p>
+<p>联系 HYBI <a href="mailto:&#x68;&#121;&#x62;&#x69;&#64;&#105;&#x65;&#x74;&#x66;&#46;&#x6f;&#114;&#x67;" target="_blank" rel="noopener">&#x68;&#121;&#x62;&#x69;&#64;&#105;&#x65;&#x74;&#x66;&#46;&#x6f;&#114;&#x67;</a> 参考 RFC 6455</p>
+<h3 id="注册新的HTTP标头字段"><a href="#注册新的HTTP标头字段" class="headerlink" title="注册新的HTTP标头字段"></a>注册新的HTTP标头字段</h3><h4 id="Sec-WebSocket-Key"><a href="#Sec-WebSocket-Key" class="headerlink" title="Sec-WebSocket-Key"></a>Sec-WebSocket-Key</h4><p>本节描述在永久消息标题字段名称注册表[ RFC3864 ]中注册的标头字段。</p>
+<p>标题字段名称<br>    Sec-WebSocket-Key </p>
+<p>适用协议<br>    http</p>
+<p>状态<br>    标准</p>
+<p>作者/更改控制器<br>    IETF</p>
+<p>规范文档<br>    RFC 6455<br>相关信息<br>    此标头字段仅用于WebSocket打开握手。</p>
+<p>| Sec-WebSocket-Key | header字段用于WebSocket打开握手。它从客户端发送到服务器，以提供服务器使用的部分信息，以证明它收到了有效的WebSocket打开握手。这有助于确保服务器不接受来自非滥用的非WebSocket客户端（例如，HTTP 客户端）的连接，以便将数据发送到不知情的WebSocket服务器。</p>
+<p>| Sec-WebSocket-Key | 标头字段绝不能在HTTP请求中出现多次。</p>
+<h4 id="Sec-WebSocket-Extensions"><a href="#Sec-WebSocket-Extensions" class="headerlink" title="Sec-WebSocket-Extensions"></a>Sec-WebSocket-Extensions</h4><p>本节介绍在永久邮件头字段名称注册表[ RFC3864 ]中注册的头字段。</p>
+<p>标题字段名称<br>    Sec-WebSocket-Extensions </p>
+<p>适用协议<br>    http</p>
+<p>状态<br>    标准</p>
+<p>作者/更改控制器<br>    IETF</p>
+<p>规范文档<br>    RFC 6455</p>
+<p>相关信息<br>    此标头字段仅用于WebSocket打开握手。</p>
+<p>| Sec-WebSocket-Extensions | header字段用于WebSocket打开握手。它最初是从客户端发送到的服务器，然后随后从服务器发送到客户端，同意在连接期间使用的一组协议级扩展。</p>
+<p>| Sec-WebSocket-Extensions | 头字段可能在HTTP请求中出现多次（在逻辑上与包含所有值的单个| Sec-WebSocket-Extensions |头字段相同。但是，| Sec-WebSocket-Extensions |头字段绝不能出现超过一次在HTTP响应中。</p>
+<h4 id="Sec-WebSocket-Accept"><a href="#Sec-WebSocket-Accept" class="headerlink" title="Sec-WebSocket-Accept"></a>Sec-WebSocket-Accept</h4><p>本节描述在永久消息标题字段名称注册表[ RFC3864 ]中注册的标头字段。</p>
+<p>标题字段名称<br>    Sec-WebSocket-Accept </p>
+<p>适用协议<br>    http</p>
+<p>状态<br>    标准</p>
+<p>作者/更改控制器<br>    IETF</p>
+<p>规范文档<br>    RFC 6455</p>
+<p>相关信息<br>    此标头字段仅用于WebSocket打开握手。</p>
+<p>| Sec-WebSocket-Accept | header字段用于WebSocket打开握手。它从服务器发送到客户端以确认服务器是否愿意启动WebSocket连接。<br>| Sec-WebSocket-Accept | 标头不得在HTTP响应中出现多次。</p>
+<h4 id="Sec-WebSocket-Protocol"><a href="#Sec-WebSocket-Protocol" class="headerlink" title="Sec-WebSocket-Protocol"></a>Sec-WebSocket-Protocol</h4><p>本节描述在永久消息标题字段名称注册表[ RFC3864 ]中注册的标头字段。</p>
+<p>标题字段名称<br>    Sec-WebSocket-Protocol<br>适用协议<br>    http<br>状态<br>    标准<br>作者/更改控制器<br>    IETF<br>规范文档<br>    RFC 6455<br>相关信息<br>    此标头字段仅用于WebSocket打开握手。<br>| Sec-WebSocket协议|header字段用于WebSocket打开握手。它从客户端发送到服务器并返回</p>
+<p>从服务器到客户端确认连接的子协议。这使脚本既可以选择子协议，又可以确保服务器同意提供该子协议。</p>
+<p>| Sec-WebSocket协议| 标头字段可能在HTTP请求中出现多次（在逻辑上与包含所有值的单个| Sec-WebSocket-Protocol |标头字段相同）。但是，| Sec-WebSocket-Protocol | 标头字段绝不能在HTTP响应中出现多次。</p>
+<h4 id="Sec-WebSocket-Version"><a href="#Sec-WebSocket-Version" class="headerlink" title="Sec-WebSocket-Version"></a>Sec-WebSocket-Version</h4><p>本节描述在永久消息标题字段名称注册表[ RFC3864 ]中注册的标头字段。</p>
+<p>标题字段名称<br>    Sec-WebSocket-Version</p>
+<p>适用协议<br>    http</p>
+<p>状态<br>    标准</p>
+<p>作者/更改控制器<br>    IETF</p>
+<p>规范文档<br>    RFC 6455</p>
+<p>相关信息<br>    此标头字段仅用于WebSocket打开握手。</p>
+<p>| Sec-WebSocket-Version | header字段用于WebSocket打开握手。它从客户端发送到服务器</p>
+<p>指示连接的协议版本。这使服务器能够正确解释从数据发送的打开握手和后续数据，并在服务器无法以安全方式解释该数据时关闭连接。| Sec-WebSocket-Version | 当从客户端接收的版本与服务器理解的版本不匹配时，头字段也会在WebSocket握手错误时从服务器发送到客户端。在这种情况下，头字段包括服务器支持的协议版本。请注意，不期望较高版本号必须向后兼容较低版本号。</p>
+<p>| Sec-WebSocket-Version | 标头字段可能在HTTP响应中出现多次（在逻辑上与包含所有值的单个| Sec-WebSocket-Version |标头字段相同）。但是，| Sec-WebSocket-Version | 标头字段绝不能在HTTP请求中出现多次。</p>
+<h3 id="WebSocket扩展名称注册表"><a href="#WebSocket扩展名称注册表" class="headerlink" title="WebSocket扩展名称注册表"></a>WebSocket扩展名称注册表</h3><p>该规范根据RFC 5226 [ RFC5226 ] 中规定的原则，为WebSocket协议创建了一个新的IANA注册表，用于WebSocket 扩展名。作为此注册表的一部分，IANA维护以下信息：</p>
+<ul>
+<li>扩展标识符扩展的标识符，将在| Sec-WebSocket-Extensions |中使用。标题字段在本规范的第11.3.2节中注册。该值必须符合本规范第9.1节中定义的扩展标记的要求。</li>
+<li>扩展通用名称 扩展名称，通常称为扩展名</li>
+<li>扩展定义 对定义与WebSocket协议一起使用的扩展的文档的引用。</li>
+<li>已知的不兼容扩展名已知此扩展名不兼容的扩展名标识符列表</li>
+<li>WebSocket扩展名称应遵循“先到先服务”IANA注册政策[ RFC5226 ]。</li>
+<li>此注册表中没有初始值。</li>
+</ul>
+<h3 id="WebSocket子协议名称注册表"><a href="#WebSocket子协议名称注册表" class="headerlink" title="WebSocket子协议名称注册表"></a>WebSocket子协议名称注册表</h3><p>该规范根据RFC 5226 [ RFC5226 ] 中规定的原则，为WebSocket协议创建了一个新的IANA注册表，用于WebSocket子协议名称。</p>
+<p>作为此注册表的一部分，IANA维护以下信息：</p>
+<ul>
+<li>标识符子协议的标识符，将在| Sec-WebSocket-Protocol |中使用。标题字段在本规范的第11.3.4节中注册。该值必须符合本规范第4.1节第10项中给出的要求- 即，该值必须是 RFC 2616 [ RFC2616 ]定义的令牌。</li>
+<li>子协议通用名称子协议的名称，通常是子协议提到。</li>
+<li>子协议定义 对使用子协议的文档的引用用WebSocket协议定义。</li>
+<li>WebSocket子协议名称将受“先到先得”的约束首次提供“IANA注册政策[RFC5226]。</li>
+</ul>
+<h3 id="WebSocket版本号注册表"><a href="#WebSocket版本号注册表" class="headerlink" title="WebSocket版本号注册表"></a>WebSocket版本号注册表</h3><p>该规范根据RFC 5226 [ RFC5226 ] 中规定的原则，为WebSocket协议创建了一个新的IANA注册表，用于WebSocket版本号。作为此注册表的一部分，IANA维护以下信息：</p>
+<ul>
+<li>版本号 | Sec-WebSocket-Version |中使用的版本号 是在指定的第4.1本规范。该值必须是0到255（含）之间的非负整数。</li>
+<li>参考 RFC请求新版本号或带有版本号的草稿名称（见下文）。</li>
+<li>状态 “临时”或“标准”。请参阅下面的说明</li>
+</ul>
+<p>版本号被指定为“临时”或“标准”。“标准”版本号记录在RFC中，用于标识WebSocket协议的主要稳定版本，例如此RFC定义的版本。“标准”版本号受“IETF审核”IANA注册政策[ RFC5226 ]的约束。</p>
+<p>“临时”版本号记录在Internet-Draft中，用于帮助实现者识别WebSocket协议的已部署版本并与之互操作，例如在此RFC发布之前开发的版本。“临时”版本号受“专家评审”IANA注册政策[ RFC5226 ]的约束，HYBI工作组主席（或者，如果工作组结束，IETF应用领域的区域主管）是最初的指定专家们。</p>
+<p>IANA已将初始值添加到注册表中，如下所示。</p>
+<p>   +——–+—————————————–+———-+<br>   |Version |                Reference                |  Status  |<br>   | Number |                                         |          |<br>   +——–+—————————————–+———-+<br>   | 0      + draft-ietf-hybi-thewebsocketprotocol-00 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 1      + draft-ietf-hybi-thewebsocketprotocol-01 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 2      + draft-ietf-hybi-thewebsocketprotocol-02 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 3      + draft-ietf-hybi-thewebsocketprotocol-03 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 4      + draft-ietf-hybi-thewebsocketprotocol-04 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 5      + draft-ietf-hybi-thewebsocketprotocol-05 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 6      + draft-ietf-hybi-thewebsocketprotocol-06 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 7      + draft-ietf-hybi-thewebsocketprotocol-07 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 8      + draft-ietf-hybi-thewebsocketprotocol-08 | Interim  |<br>   +——–+—————————————–+———-+<br>   | 9      +                Reserved                 |          |<br>   +——–+—————————————–+———-+<br>   | 10     +                Reserved                 |          |<br>   +——–+—————————————–+———-+<br>   | 11     +                Reserved                 |          |<br>   +——–+—————————————–+———-+<br>   | 12     +                Reserved                 |          |<br>   +——–+—————————————–+———-+<br>   | 13     +                RFC 6455                 | Standard |<br>   +——–+—————————————–+———-+</p>
+<h3 id="WebSocket关闭代码编号注册表"><a href="#WebSocket关闭代码编号注册表" class="headerlink" title="WebSocket关闭代码编号注册表"></a>WebSocket关闭代码编号注册表</h3><p>该规范创建WebSocket的一个新的IANA注册表按照确定的原则连接关闭代码编号列于RFC 5226 [ RFC5226 ]。</p>
+<p>作为此注册表的一部分，IANA维护以下信息：</p>
+<p>状态代码<br>    状态代码表示根据本文档第7.4节关闭WebSocket连接的原因。状态代码是1000到4999（含）之间的整数。<br>含义<br>    状态代码的含义。每个状态代码都必须具有独特的含义。<br>联系<br>    保留状态代码的实体的联系人。<br>参考<br>    请求状态代码并定义其含义的稳定文档。这对于1000-2999范围内的状态代码是必需的，建议用于3000-3999范围内的状态代码。</p>
+<p>WebSocket关闭代码编号根据其范围而有不同的注册要求。本协议及其后续版本或扩展使用的状态代码请求受“标准操作”，“规范要求”（暗示“指定专家”）或“IESG审核”IANA 注册政策中的任何一项的约束。被授予1000-2999的范围。图书馆，框架和应用程序使用的状态代码请求受“先到先服务”IANA 注册政策的约束，并且应在3000-3999范围内授予。4000-4999的状态代码范围指定为专用。请求应指明它们是否正在请求WebSocket协议（或协议的未来版本），扩展或库/框架/应用程序使用的状态代码。</p>
+<p>IANA已将初始值添加到注册表中，如下所示。</p>
+<pre><code> |Status Code | Meaning         | Contact       | Reference |
+-+------------+-----------------+---------------+-----------|
+ | 1000       | Normal Closure  | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1001       | Going Away      | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1002       | Protocol error  | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1003       | Unsupported Data| hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1004       | ---Reserved---- | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1005       | No Status Rcvd  | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1006       | Abnormal Closure| hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1007       | Invalid frame   | hybi@ietf.org | RFC 6455  |
+ |            | payload data    |               |           |
+-+------------+-----------------+---------------+-----------|
+ | 1008       | Policy Violation| hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1009       | Message Too Big | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1010       | Mandatory Ext.  | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+ | 1011       | Internal Server | hybi@ietf.org | RFC 6455  |
+ |            | Error           |               |           |
+-+------------+-----------------+---------------+-----------|
+ | 1015       | TLS handshake   | hybi@ietf.org | RFC 6455  |
+-+------------+-----------------+---------------+-----------|
+</code></pre><h3 id="WebSocket操作码注册表"><a href="#WebSocket操作码注册表" class="headerlink" title="WebSocket操作码注册表"></a>WebSocket操作码注册表</h3><p>该规范根据RFC 5226 [ RFC5226 ] 中规定的原则为WebSocket操作码创建新的IANA注册表。</p>
+<p>作为此注册表的一部分，IANA维护以下信息：</p>
+<p>操作码操作<br>    操作码表示WebSocket帧的帧类型，如在5.2节中定义。 操作码是0之间的整数 和15，包括在内。<br>含义<br>    操作码值的含义。<br>参考<br>    请求操作码的规范。</p>
+<p>WebSocket操作码编号受“标准操作”IANA注册政策[ RFC5226 ]的约束。</p>
+<p>IANA已将初始值添加到注册表中，如下所示。</p>
+<pre><code> |Opcode  | Meaning                             | Reference |
+-+--------+-------------------------------------+-----------|
+ | 0      | Continuation Frame                  | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+ | 1      | Text Frame                          | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+ | 2      | Binary Frame                        | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+ | 8      | Connection Close Frame              | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+ | 9      | Ping Frame                          | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+ | 10     | Pong Frame                          | RFC 6455  |
+-+--------+-------------------------------------+-----------|
+</code></pre><h3 id="WebSocket框架标头位注册表"><a href="#WebSocket框架标头位注册表" class="headerlink" title="WebSocket框架标头位注册表"></a>WebSocket框架标头位注册表</h3><p>此规范根据RFC 5226[ RFC5226 ] 中规定的原则为WebSocket Framing Header Bits 创建新的IANA注册表。该注册表控制5.2节中标记为RSV1，RSV2和RSV3 的位的分配。这些位保留用于本规范的未来版本或扩展。WebSocket框架标头位分配受“标准行动”IANA注册政策[ RFC5226 ]的约束。</p>
+<h3 id="使用其他规范中的WebSocket协议"><a href="#使用其他规范中的WebSocket协议" class="headerlink" title="使用其他规范中的WebSocket协议"></a>使用其他规范中的WebSocket协议</h3><p>WebSocket协议旨在被另一规范用于为动态作者定义的内容提供通用机制，例如，在定义脚本API的规范中。这样的规范首先需要<em>Establish WebSocket Connection</em>，为该算法提供：</p>
+<ul>
+<li>目的地，由/ host /和/ port /组成。</li>
+<li>/资源名称/，允许在一个主机和端口上识别多个服务。</li>
+<li>/ secure / flag，如果要加密连接则为true，否则为false。</li>
+<li>正在负责连接的源[ RFC6454 ]的ASCII序列化。<br>-（可选）一个字符串，用于标识要在WebSocket连接上分层的协议。</li>
+</ul>
+<p>/ host /，/ port /，/ resource name /和/ secure / flag通常使用解析WebSocket URI的步骤从URI获取组件。如果URI未指定WebSocket，则这些步骤将失败。</p>
+<p>如果要在任何时候关闭连接，那么规范需要使用<em>Close WebSocket Connection</em>算法（第7.1.1节）。7.1.4节定义了<em>SwessSocket连接何时关闭</em>。当连接打开时，规范将需要处理收到<em>A WebSocket消息时的情况（第6.2节）。要将一些数据/数据/发送到开放连接，规范需要</em>发送WebSocket Message_（第6.1节）。</p>
+<p>&lt;终于完了…&gt;</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rfc/" rel="tag"># rfc</a>
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/长轮询 VS WebSockets VS Server-Sent Events/" rel="next" title="长轮询 VS WebSockets VS Server-Sent Events">
+                <i class="fa fa-chevron-left"></i> 长轮询 VS WebSockets VS Server-Sent Events
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">野猪佩琦</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议概述"><span class="nav-number">2.2.</span> <span class="nav-text">协议概述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始握手"><span class="nav-number">3.</span> <span class="nav-text">开始握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束握手"><span class="nav-number">4.</span> <span class="nav-text">结束握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计理念"><span class="nav-number">5.</span> <span class="nav-text">设计理念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全模型"><span class="nav-number">6.</span> <span class="nav-text">安全模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与TCP和HTTP的关系"><span class="nav-number">7.</span> <span class="nav-text">与TCP和HTTP的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立连接"><span class="nav-number">8.</span> <span class="nav-text">建立连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用WebSocket协议的子协议"><span class="nav-number">9.</span> <span class="nav-text">使用WebSocket协议的子协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符合要求"><span class="nav-number">10.</span> <span class="nav-text">符合要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#术语和其他约定"><span class="nav-number">10.1.</span> <span class="nav-text">术语和其他约定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket-URIs"><span class="nav-number">11.</span> <span class="nav-text">WebSocket URIs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始握手-1"><span class="nav-number">12.</span> <span class="nav-text">开始握手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户要求"><span class="nav-number">12.1.</span> <span class="nav-text">客户要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端要求"><span class="nav-number">13.</span> <span class="nav-text">服务端要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取客户端的打开握手"><span class="nav-number">13.1.</span> <span class="nav-text">读取客户端的打开握手</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送服务器的开放握手"><span class="nav-number">14.</span> <span class="nav-text">发送服务器的开放握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为握手中使用的新标题字段收集ABNF"><span class="nav-number">15.</span> <span class="nav-text">为握手中使用的新标题字段收集ABNF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持WebSocket协议的多个版本"><span class="nav-number">16.</span> <span class="nav-text">支持WebSocket协议的多个版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据框架"><span class="nav-number">17.</span> <span class="nav-text">数据框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概观"><span class="nav-number">17.1.</span> <span class="nav-text">概观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本框架协议"><span class="nav-number">17.2.</span> <span class="nav-text">基本框架协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端到服务器屏蔽"><span class="nav-number">17.3.</span> <span class="nav-text">客户端到服务器屏蔽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#碎片"><span class="nav-number">17.4.</span> <span class="nav-text">碎片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制框架"><span class="nav-number">17.5.</span> <span class="nav-text">控制框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关"><span class="nav-number">17.5.1.</span> <span class="nav-text">关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ping"><span class="nav-number">17.5.2.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pong"><span class="nav-number">17.5.3.</span> <span class="nav-text">pong</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据框架-1"><span class="nav-number">17.6.</span> <span class="nav-text">数据框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">17.7.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可扩展性"><span class="nav-number">17.8.</span> <span class="nav-text">可扩展性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送和接收数据"><span class="nav-number">18.</span> <span class="nav-text">发送和接收数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发送数据"><span class="nav-number">18.1.</span> <span class="nav-text">发送数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收数据"><span class="nav-number">18.2.</span> <span class="nav-text">接收数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭连接"><span class="nav-number">19.</span> <span class="nav-text">关闭连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">19.1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭WebSocket连接"><span class="nav-number">19.1.1.</span> <span class="nav-text">关闭WebSocket连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动WebSocket-Closing-Handshake"><span class="nav-number">19.1.2.</span> <span class="nav-text">启动WebSocket Closing Handshake</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSocket-Closing-Handshake已启动"><span class="nav-number">19.1.3.</span> <span class="nav-text">WebSocket Closing Handshake已启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSocket连接已关闭"><span class="nav-number">19.1.4.</span> <span class="nav-text">WebSocket连接已关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSocket连接关闭代码"><span class="nav-number">19.1.5.</span> <span class="nav-text">WebSocket连接关闭代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSocket连接关闭原因"><span class="nav-number">19.1.6.</span> <span class="nav-text">WebSocket连接关闭原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSocket连接失败"><span class="nav-number">19.1.7.</span> <span class="nav-text">WebSocket连接失败</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常关闭"><span class="nav-number">19.2.</span> <span class="nav-text">异常关闭</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户启动的关闭"><span class="nav-number">19.2.1.</span> <span class="nav-text">客户启动的关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器启动的关闭"><span class="nav-number">19.2.2.</span> <span class="nav-text">服务器启动的关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从异常关闭中恢复"><span class="nav-number">19.2.3.</span> <span class="nav-text">从异常关闭中恢复</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正常关闭连接"><span class="nav-number">19.3.</span> <span class="nav-text">正常关闭连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态代码"><span class="nav-number">19.4.</span> <span class="nav-text">状态代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义的状态代码"><span class="nav-number">19.4.1.</span> <span class="nav-text">定义的状态代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保留的状态代码范围"><span class="nav-number">19.4.2.</span> <span class="nav-text">保留的状态代码范围</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理"><span class="nav-number">20.</span> <span class="nav-text">错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#处理UTF-8编码数据中的错误"><span class="nav-number">20.1.</span> <span class="nav-text">处理UTF-8编码数据中的错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#谈判扩展"><span class="nav-number">21.1.</span> <span class="nav-text">谈判扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#已知扩展"><span class="nav-number">21.2.</span> <span class="nav-text">已知扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全考虑因素"><span class="nav-number">22.</span> <span class="nav-text">安全考虑因素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非浏览器客户端"><span class="nav-number">22.1.</span> <span class="nav-text">非浏览器客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#起源考虑因素"><span class="nav-number">22.2.</span> <span class="nav-text">起源考虑因素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对基础设施的攻击（掩蔽）"><span class="nav-number">22.3.</span> <span class="nav-text">对基础设施的攻击（掩蔽）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特定于实施的限制"><span class="nav-number">22.4.</span> <span class="nav-text">特定于实施的限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket客户端身份验证"><span class="nav-number">22.5.</span> <span class="nav-text">WebSocket客户端身份验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接机密性和完整性"><span class="nav-number">22.6.</span> <span class="nav-text">连接机密性和完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理无效数据"><span class="nav-number">22.7.</span> <span class="nav-text">处理无效数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过WebSocket-Handshake使用SHA-1"><span class="nav-number">22.8.</span> <span class="nav-text">通过WebSocket Handshake使用SHA-1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IANA注意事项"><span class="nav-number">23.</span> <span class="nav-text">IANA注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册新的URI方案"><span class="nav-number">23.1.</span> <span class="nav-text">注册新的URI方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册“ws”计划"><span class="nav-number">23.1.1.</span> <span class="nav-text">注册“ws”计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注册“wss”计划"><span class="nav-number">23.1.2.</span> <span class="nav-text">注册“wss”计划</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册“WebSocket”HTTP升级关键字"><span class="nav-number">23.2.</span> <span class="nav-text">注册“WebSocket”HTTP升级关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册新的HTTP标头字段"><span class="nav-number">23.3.</span> <span class="nav-text">注册新的HTTP标头字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Sec-WebSocket-Key"><span class="nav-number">23.3.1.</span> <span class="nav-text">Sec-WebSocket-Key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sec-WebSocket-Extensions"><span class="nav-number">23.3.2.</span> <span class="nav-text">Sec-WebSocket-Extensions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sec-WebSocket-Accept"><span class="nav-number">23.3.3.</span> <span class="nav-text">Sec-WebSocket-Accept</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sec-WebSocket-Protocol"><span class="nav-number">23.3.4.</span> <span class="nav-text">Sec-WebSocket-Protocol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sec-WebSocket-Version"><span class="nav-number">23.3.5.</span> <span class="nav-text">Sec-WebSocket-Version</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket扩展名称注册表"><span class="nav-number">23.4.</span> <span class="nav-text">WebSocket扩展名称注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket子协议名称注册表"><span class="nav-number">23.5.</span> <span class="nav-text">WebSocket子协议名称注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket版本号注册表"><span class="nav-number">23.6.</span> <span class="nav-text">WebSocket版本号注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket关闭代码编号注册表"><span class="nav-number">23.7.</span> <span class="nav-text">WebSocket关闭代码编号注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket操作码注册表"><span class="nav-number">23.8.</span> <span class="nav-text">WebSocket操作码注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket框架标头位注册表"><span class="nav-number">23.9.</span> <span class="nav-text">WebSocket框架标头位注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用其他规范中的WebSocket协议"><span class="nav-number">23.10.</span> <span class="nav-text">使用其他规范中的WebSocket协议</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">野猪佩琦</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
